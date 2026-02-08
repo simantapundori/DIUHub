@@ -1,4 +1,4 @@
-# DIUHub git add README.md
+# DIUHub - A Centralized QR-Enabled Platform for University Clubs and Events
 
 DIUHub is a centralized platform designed for Daffodil International University students and faculty to manage attendance, clubs, events, and registrations efficiently.
 
