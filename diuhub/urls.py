@@ -4,6 +4,6 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # connect users app URLs
     path('', include('users.urls')),
+    path('clubs/', include('clubs.urls')),
 ]
