@@ -1,0 +1,15 @@
+<h2>Attendance List</h2>
+
+{% for a in attendance %}
+
+<p>
+
+{{ a.registration.user.username }}
+-
+{{ a.registration.event.title }}
+-
+{{ a.attended }}
+
+</p>
+
+{% endfor %}
