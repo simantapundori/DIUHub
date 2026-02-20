@@ -1,15 +1,85 @@
-<h2>Attendance List</h2>
+{% load static %}
 
-{% for a in attendance %}
+<!DOCTYPE html>
+<html>
 
-<p>
+<head>
 
-{{ a.registration.user.username }}
--
-{{ a.registration.event.title }}
--
-{{ a.attended }}
+    <title>Attendance | DIUHub</title>
 
-</p>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-{% endfor %}
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2 class="page-title">Attendance List</h2>
+
+    <div class="card">
+
+        {% for a in attendance %}
+
+            <div class="club-card">
+
+                <p>
+
+                    <strong>User:</strong>
+                    {{ a.registration.user.username }}
+
+                </p>
+
+                <p>
+
+                    <strong>Event:</strong>
+                    {{ a.registration.event.title }}
+
+                </p>
+
+                <p>
+
+                    <strong>Status:</strong>
+
+                    {% if a.attended %}
+
+                        <span class="status approved">
+                            Present
+                        </span>
+
+                    {% else %}
+
+                        <span class="status rejected">
+                            Absent
+                        </span>
+
+                    {% endif %}
+
+                </p>
+
+            </div>
+
+        {% empty %}
+
+            <p>No attendance records found.</p>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+
+</html> (edited)Saturday, 21 February, 2026 1:28 AM
+:rofl:
+Click to react
+:100:
+Click to react
+:thumbsup:
+Click to react
+Add Reaction
+Reply
+Forward
+More
+[3:24 AM]Wednesday, 18 February, 2026 3:24 AM

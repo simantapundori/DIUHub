@@ -64,3 +64,19 @@ body {
 .status.rejected {
   background: #e74c3c;
 }
+
+ /* ========================================
+   ATTENDANCE SYSTEM (Israt)
+======================================== */
+
+.attendance-row {
+
+  background: white;
+
+  padding: 15px;
+
+  margin-bottom: 10px;
+
+  border-radius: 8px;
+
+}
