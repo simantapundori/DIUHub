@@ -1,19 +1,42 @@
-<h2>Clubs</h2>
+{% load static %}
 
-{% for club in clubs %}
+<!doctype html>
+<html>
+  <head>
+    <title>Clubs | DIUHub</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
 
-<div>
-  <h3>{{ club.name }}</h3>
+  <body>
+    <div class="container">
+      <h2 class="page-title">University Clubs</h2>
 
-  <p>{{ club.description }}</p>
+      {% for club in clubs %}
 
-  {% if club.id in membership_dict %}
-  <p>Status: {{ membership_dict.club.id }}</p>
-  {% else %}
-  <a href="/clubs/join/{{ club.id }}/">Join Club</a>
-  {% endif %}
-</div>
+      <div class="club-card">
+        <div class="club-name">{{ club.name }}</div>
 
-<hr />
+        <div class="club-description">{{ club.description }}</div>
 
-{% endfor %}
+        {% if club.user_status %} {% if club.user_status == "approved" %}
+        <span class="status approved">Approved</span>
+
+        {% elif club.user_status == "rejected" %}
+        <span class="status rejected">Rejected</span>
+
+        {% else %}
+        <span class="status pending">Pending</span>
+
+        {% endif %} {% else %}
+
+        <a href="/clubs/join/{{ club.id }}/" class="btn-join"> Join Club </a>
+
+        {% endif %}
+      </div>
+
+      {% empty %}
+      <p>No clubs available.</p>
+      {% endfor %}
+    </div>
+  </body>
+</html>
