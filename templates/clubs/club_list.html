@@ -1,0 +1,19 @@
+<h2>Clubs</h2>
+
+{% for club in clubs %}
+
+<div>
+  <h3>{{ club.name }}</h3>
+
+  <p>{{ club.description }}</p>
+
+  {% if club.id in membership_dict %}
+  <p>Status: {{ membership_dict.club.id }}</p>
+  {% else %}
+  <a href="/clubs/join/{{ club.id }}/">Join Club</a>
+  {% endif %}
+</div>
+
+<hr />
+
+{% endfor %}
