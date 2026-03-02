@@ -1,5 +1,28 @@
-<h2>Dashboard</h2>
+{% load static %}
 
-<p>You are logged in.</p>
+<!doctype html>
+<html>
+  <head>
+    <title>Dashboard | DIUHub</title>
 
-<a href="/logout/">Logout</a>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+
+  <body>
+    <div class="container">
+      <h2 class="page-title">Dashboard</h2>
+
+      <div class="card">
+        <p>Welcome to DIUHub, {{ request.user.username }}.</p>
+
+        <br />
+
+        <a href="/clubs/" class="btn"> Browse Clubs </a>
+
+        <br /><br />
+
+        <a href="/logout/" class="btn"> Logout </a>
+      </div>
+    </div>
+  </body>
+</html>

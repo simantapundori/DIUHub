@@ -1,8 +1,27 @@
-<h2>Register</h2>
+{% load static %}
 
-<form method="post">
-  {% csrf_token %} {{ form.as_p }}
-  <button type="submit">Register</button>
-</form>
+<!doctype html>
+<html>
+  <head>
+    <title>Register | DIUHub</title>
 
-<a href="/login/">Login here</a>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+
+  <body>
+    <div class="auth-container">
+      <h2>Create Account</h2>
+
+      <form method="post">
+        {% csrf_token %} {{ form.as_p }}
+
+        <button class="btn" type="submit">Register</button>
+      </form>
+
+      <p>
+        Already have an account?
+        <a href="/login/">Login here</a>
+      </p>
+    </div>
+  </body>
+</html>
