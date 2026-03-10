@@ -1,27 +1,39 @@
+/* ===============================
+GLOBAL
+=============================== */
+
 body {
   margin: 0;
   font-family: "Segoe UI", sans-serif;
   background: #f4f6f9;
 }
 
-/* Layout */
+/* ===============================
+LAYOUT
+=============================== */
 
 .layout {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
 }
 
-/* Sidebar */
+/* ===============================
+SIDEBAR
+=============================== */
 
 .sidebar {
   width: 230px;
   background: #2c3e50;
   padding: 20px;
   color: white;
-  min-height: 100vh;
+  transition: 0.3s;
 }
 
-/* Logo */
+.sidebar.collapsed {
+  width: 0;
+  padding: 0;
+  overflow: hidden;
+}
 
 .logo-container {
   text-align: center;
@@ -30,7 +42,6 @@ body {
 
 .logo-img {
   width: 140px;
-  height: auto;
 }
 
 /* Sidebar links */
@@ -49,27 +60,58 @@ body {
   background: #34495e;
 }
 
-/* Main */
+/* ===============================
+MAIN AREA
+=============================== */
 
 .main {
   flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Navbar */
+/* ===============================
+NAVBAR
+=============================== */
 
 .navbar {
   background: white;
   padding: 15px 20px;
   border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
 }
 
-/* Content */
+/* Sidebar toggle button */
+
+#menu-toggle {
+  font-size: 22px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+/* ===============================
+CONTENT
+=============================== */
 
 .content {
   padding: 25px;
 }
 
-/* Cards */
+/* Page title */
+
+.page-title {
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* ===============================
+CARDS
+=============================== */
 
 .card {
   background: white;
@@ -79,7 +121,9 @@ body {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
-/* Forms */
+/* ===============================
+FORMS
+=============================== */
 
 .form-group {
   margin-bottom: 15px;
@@ -98,28 +142,56 @@ body {
   border-radius: 6px;
 }
 
-/* Buttons */
+/* ===============================
+INPUT FIELDS
+=============================== */
+
+.input-field {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.input-field:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 4px rgba(52, 152, 219, 0.4);
+}
+
+/* ===============================
+BUTTONS
+=============================== */
 
 .btn-primary {
   background: #3498db;
   color: white;
-  padding: 10px 16px;
+  padding: 11px 16px;
   border-radius: 6px;
   text-decoration: none;
   border: none;
   cursor: pointer;
+  display: inline-block;
+  font-weight: 500;
+  transition: 0.2s;
 }
 
 .btn-primary:hover {
   background: #2980b9;
 }
 
-/* Status */
+/* ===============================
+STATUS BADGES
+=============================== */
 
 .status {
   padding: 6px 12px;
   border-radius: 20px;
   color: white;
+  font-size: 13px;
 }
 
 .pending {
@@ -132,4 +204,89 @@ body {
 
 .rejected {
   background: red;
+}
+
+/* ===============================
+AUTHENTICATION PAGES
+(Login / Register)
+=============================== */
+
+.auth-page {
+  background: #f4f6f9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Login/Register card */
+
+.auth-container {
+  width: 360px;
+  background: white;
+  padding: 35px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+/* Logo */
+
+.auth-logo {
+  width: 120px;
+  margin-bottom: 15px;
+}
+
+/* Title */
+
+.auth-container h2 {
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* Input styling */
+
+.auth-container input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.auth-container input:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 4px rgba(52, 152, 219, 0.4);
+}
+
+/* Button */
+
+.auth-container button {
+  width: 100%;
+}
+
+/* Links */
+
+.auth-link {
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.auth-link a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.auth-link a:hover {
+  text-decoration: underline;
+}
+
+/* Error message */
+
+.form-error {
+  color: red;
+  font-size: 13px;
+  margin-bottom: 10px;
 }

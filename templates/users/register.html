@@ -8,19 +8,49 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   </head>
 
-  <body>
+  <body class="auth-page">
     <div class="auth-container">
+      <img src="{% static 'images/diuhub_logo.png' %}" class="auth-logo" />
+
       <h2>Create Account</h2>
 
       <form method="post">
-        {% csrf_token %} {{ form.as_p }}
+        {% csrf_token %}
 
-        <button class="btn" type="submit">Register</button>
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          class="input-field"
+        />
+
+        <input
+          type="email"
+          name="email"
+          placeholder="Email address"
+          class="input-field"
+        />
+
+        <input
+          type="password"
+          name="password1"
+          placeholder="Password"
+          class="input-field"
+        />
+
+        <input
+          type="password"
+          name="password2"
+          placeholder="Confirm Password"
+          class="input-field"
+        />
+
+        <button class="btn-primary">Register</button>
       </form>
 
-      <p>
+      <p class="auth-link">
         Already have an account?
-        <a href="/login/">Login here</a>
+        <a href="/login/">Login</a>
       </p>
     </div>
   </body>

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import UserRegisterForm
-
+from django.contrib.auth.decorators import login_required
 
 # Register new user
 def register_view(request):
@@ -41,3 +41,24 @@ def logout_view(request):
 # Temporary dashboard
 def dashboard(request):
     return render(request, 'users/dashboard.html')
+
+#Profile view and edit
+@login_required
+def profile_view(request):
+
+    user = request.user
+
+    if request.method == "POST":
+
+        user.full_name = request.POST.get("full_name")
+        user.student_id = request.POST.get("student_id")
+        user.email = request.POST.get("email")
+        user.contact_number = request.POST.get("contact_number")
+        user.blood_group = request.POST.get("blood_group")
+        user.department = request.POST.get("department")
+        user.batch = request.POST.get("batch")
+        user.section = request.POST.get("section")
+
+        user.save()
+
+    return render(request, "users/profile.html", {"user": user})

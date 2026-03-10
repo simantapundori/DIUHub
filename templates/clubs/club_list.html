@@ -9,9 +9,17 @@
 
   <p>{{ club.description }}</p>
 
-  {% if club.id in membership_dict %}
+  {% if club.user_status == "approved" %}
+
+  <span class="status approved">Member</span>
+
+  {% elif club.user_status == "pending" %}
 
   <span class="status pending">Request Pending</span>
+
+  {% elif club.user_status == "rejected" %}
+
+  <span class="status rejected">Rejected</span>
 
   {% else %}
 
