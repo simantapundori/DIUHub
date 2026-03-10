@@ -1,0 +1,57 @@
+{% extends "base.html" %} {% block content %}
+
+<h2 class="page-title">Student Profile</h2>
+
+<div class="card">
+  <form method="post">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" name="full_name" value="{{ user.full_name }}" />
+    </div>
+
+    <div class="form-group">
+      <label>Student ID</label>
+      <input type="text" name="student_id" value="{{ user.student_id }}" />
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" name="email" value="{{ user.email }}" />
+    </div>
+
+    <div class="form-group">
+      <label>Contact Number</label>
+      <input
+        type="text"
+        name="contact_number"
+        value="{{ user.contact_number }}"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Blood Group</label>
+      <input type="text" name="blood_group" value="{{ user.blood_group }}" />
+    </div>
+
+    <div class="form-group">
+      <label>Department</label>
+      <input type="text" name="department" value="{{ user.department }}" />
+    </div>
+
+    <div class="form-group">
+      <label>Batch</label>
+      <input type="text" name="batch" value="{{ user.batch }}" />
+    </div>
+
+    <div class="form-group">
+      <label>Section</label>
+      <input type="text" name="section" value="{{ user.section }}" />
+    </div>
+
+    <button class="btn-primary">Update Profile</button>
+  </form>
+</div>
+
+{% endblock %}

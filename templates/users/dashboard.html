@@ -1,28 +1,21 @@
-{% load static %}
+{% extends "base.html" %} {% block content %}
 
-<!doctype html>
-<html>
-  <head>
-    <title>Dashboard | DIUHub</title>
+<h2 class="page-title">Dashboard</h2>
 
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-  </head>
+<div class="card">
+  <p>Welcome to DIUHub, {{ request.user.username }}.</p>
 
-  <body>
-    <div class="container">
-      <h2 class="page-title">Dashboard</h2>
+  <br />
 
-      <div class="card">
-        <p>Welcome to DIUHub, {{ request.user.username }}.</p>
+  <a href="/clubs/" class="btn-primary">Browse Clubs</a>
 
-        <br />
+  <br /><br />
 
-        <a href="/clubs/" class="btn"> Browse Clubs </a>
+  <a href="/events/" class="btn-primary">Browse Events</a>
 
-        <br /><br />
+  <br /><br />
 
-        <a href="/logout/" class="btn"> Logout </a>
-      </div>
-    </div>
-  </body>
-</html>
+  <a href="/profile/" class="btn-primary">My Profile</a>
+</div>
+
+{% endblock %}

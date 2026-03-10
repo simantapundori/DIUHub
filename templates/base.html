@@ -1,0 +1,39 @@
+{% load static %}
+
+<!doctype html>
+<html>
+  <head>
+    <title>DIUHub</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+
+  <body>
+    <div class="layout">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="logo-container">
+          <img src="{% static 'images/diuhub_logo.png' %}" class="logo-img" />
+        </div>
+
+        <a href="/dashboard/">Dashboard</a>
+        <a href="/profile/">My Profile</a>
+        <a href="/clubs/">Clubs</a>
+        <a href="/events/">Events</a>
+        <a href="/attendance/">Attendance</a>
+        <a href="/logout/">Logout</a>
+      </div>
+
+      <!-- Main Section -->
+      <div class="main">
+        <!-- Navbar -->
+        <div class="navbar">
+          <span>Welcome, {{ request.user.username }}</span>
+        </div>
+
+        <!-- Page Content -->
+        <div class="content">{% block content %} {% endblock %}</div>
+      </div>
+    </div>
+  </body>
+</html>
