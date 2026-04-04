@@ -1,11 +1,18 @@
+
 from django.db import models
 from django.conf import settings
 from clubs.models import Club
 
+
 class Event(models.Model):
-    club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    club = models.ForeignKey(
+        Club,
+        on_delete=models.CASCADE,
+        related_name='events'
+    )
+
     title = models.CharField(max_length=200)
-    description = models.TextField(help_text="Write event details with line breaks")
+    description = models.TextField()
     date = models.DateTimeField()
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 

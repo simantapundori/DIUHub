@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block content %}
 
-<h2 class="page-title">Upcoming Events</h2>
+<h2 class="page-title">All Events</h2>
 
 {% for event in events %}
 
@@ -11,7 +11,7 @@
 
   <p><strong>Club:</strong> {{ event.club.name }}</p>
 
-  <p><strong>Date:</strong> {{ event.event_date }}</p>
+  <p><strong>Date:</strong> {{ event.date }}</p>
 
   <p><strong>Location:</strong> {{ event.location }}</p>
 </div>
@@ -20,4 +20,4 @@
 
 <p>No events available.</p>
 
-{% endfor %} {% endblock %}
+{% endfor %}
