@@ -1,0 +1,23 @@
+{% extends "base.html" %} {% block content %}
+
+<h2 class="page-title">{{ club.name }}</h2>
+
+<div class="card">
+  <p>{{ club.description }}</p>
+</div>
+
+<h3>Upcoming Events</h3>
+
+{% for event in events %}
+<div class="card">
+  <h4>{{ event.title }}</h4>
+
+  <p>{{ event.description|linebreaks }}</p>
+
+  <p><strong>Date:</strong> {{ event.event_date }}</p>
+
+  <a href="/events/register/{{ event.id }}/" class="btn-primary"> Register </a>
+</div>
+{% empty %}
+<p>No events available for this club.</p>
+{% endfor %} {% endblock %}
