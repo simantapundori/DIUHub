@@ -7,17 +7,30 @@
 <div class="card">
   <h3>{{ event.title }}</h3>
 
-  <p>{{ event.description }}</p>
-
   <p><strong>Club:</strong> {{ event.club.name }}</p>
 
-  <p><strong>Date:</strong> {{ event.date }}</p>
+  <p>{{ event.description|linebreaks }}</p>
 
-  <p><strong>Location:</strong> {{ event.location }}</p>
+  <p><strong>Date:</strong> {{ event.event_date }}</p>
+
+  {% if event.id in registered_events %}
+
+  <span class="status approved">Registered</span>
+
+  <br /><br />
+
+  {% for r in request.user.registrations.all %} {% if r.event.id == event.id %}
+  {% if r.qr_code %}
+  <img src="{{ r.qr_code.url }}" width="120" />
+  {% endif %} {% endif %} {% endfor %} {% else %}
+
+  <a href="/events/register/{{ event.id }}/" class="btn-primary"> Register </a>
+
+  {% endif %}
 </div>
 
 {% empty %}
 
 <p>No events available.</p>
 
-{% endfor %}
+{% endfor %} {% endblock %}
