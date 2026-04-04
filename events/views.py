@@ -6,7 +6,7 @@ from .models import Event
 @login_required
 def event_list(request):
 
-    events = Event.objects.all().order_by('-event_date')
+    events = Event.objects.all().order_by('-date')
 
     return render(request, 'events/event_list.html', {
         'events': events
