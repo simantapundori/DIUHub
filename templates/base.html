@@ -11,29 +11,50 @@
   <body>
     <div class="layout">
       <!-- Sidebar -->
-      <div class="sidebar">
+
+      <div class="sidebar" id="sidebar">
         <div class="logo-container">
           <img src="{% static 'images/diuhub_logo.png' %}" class="logo-img" />
         </div>
 
         <a href="/dashboard/">Dashboard</a>
+
         <a href="/profile/">My Profile</a>
+
         <a href="/clubs/">Clubs</a>
+
         <a href="/events/">Events</a>
+
         <a href="/attendance/">Attendance</a>
+
         <a href="/logout/">Logout</a>
       </div>
 
       <!-- Main Section -->
+
       <div class="main">
         <!-- Navbar -->
+
         <div class="navbar">
+          <button id="menu-toggle">☰</button>
+
           <span>Welcome, {{ request.user.username }}</span>
         </div>
 
         <!-- Page Content -->
+
         <div class="content">{% block content %} {% endblock %}</div>
       </div>
     </div>
+
+    <script>
+      const toggleBtn = document.getElementById("menu-toggle");
+
+      const sidebar = document.getElementById("sidebar");
+
+      toggleBtn.onclick = function () {
+        sidebar.classList.toggle("collapsed");
+      };
+    </script>
   </body>
 </html>

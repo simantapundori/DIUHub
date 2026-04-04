@@ -5,13 +5,23 @@
 {% for club in clubs %}
 
 <div class="card">
-  <h3>{{ club.name }}</h3>
+  <h3>
+    <a href="/clubs/{{ club.id }}/">{{ club.name }}</a>
+  </h3>
 
   <p>{{ club.description }}</p>
 
-  {% if club.id in membership_dict %}
+  {% if club.user_status == "approved" %}
+
+  <span class="status approved">Member</span>
+
+  {% elif club.user_status == "pending" %}
 
   <span class="status pending">Request Pending</span>
+
+  {% elif club.user_status == "rejected" %}
+
+  <span class="status rejected">Rejected</span>
 
   {% else %}
 

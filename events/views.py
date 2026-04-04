@@ -13,7 +13,7 @@ from registrations.models import Registration
 @login_required
 def event_list(request):
 
-    events = Event.objects.all().order_by('-event_date')
+    events = Event.objects.all().order_by('-date')
 
     registered_events = Registration.objects.filter(
         user=request.user
