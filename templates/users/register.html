@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
   </head>
 
-<<<<<<< Updated upstream
   <body class="auth-page">
     <div class="auth-container">
       <img src="{% static 'images/diuhub_logo.png' %}" class="auth-logo" />
@@ -52,21 +51,6 @@
       <p class="auth-link">
         Already have an account?
         <a href="/login/">Login</a>
-=======
-  <body>
-    <div class="auth-container">
-      <h2>Create Account</h2>
-
-      <form method="post">
-        {% csrf_token %} {{ form.as_p }}
-
-        <button class="btn" type="submit">Register</button>
-      </form>
-
-      <p>
-        Already have an account?
-        <a href="/login/">Login here</a>
->>>>>>> Stashed changes
       </p>
     </div>
   </body>
