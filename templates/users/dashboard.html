@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 {% extends "base.html" %} {% block content %}
 
 <h2 class="page-title">Dashboard</h2>
@@ -19,3 +20,33 @@
 </div>
 
 {% endblock %}
+=======
+{% load static %}
+
+<!doctype html>
+<html>
+  <head>
+    <title>Dashboard | DIUHub</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  </head>
+
+  <body>
+    <div class="container">
+      <h2 class="page-title">Dashboard</h2>
+
+      <div class="card">
+        <p>Welcome to DIUHub, {{ request.user.username }}.</p>
+
+        <br />
+
+        <a href="/clubs/" class="btn"> Browse Clubs </a>
+
+        <br /><br />
+
+        <a href="/logout/" class="btn"> Logout </a>
+      </div>
+    </div>
+  </body>
+</html>
+>>>>>>> Stashed changes

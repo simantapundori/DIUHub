@@ -1,13 +1,21 @@
+<<<<<<< Updated upstream
 /* ===============================
 GLOBAL
 =============================== */
+=======
+/* ========================================
+   1. GLOBAL STYLES (used by ALL pages)
+======================================== */
+>>>>>>> Stashed changes
 
 body {
   margin: 0;
+  padding: 0;
   font-family: "Segoe UI", sans-serif;
-  background: #f4f6f9;
+  background-color: #f4f6f9;
 }
 
+<<<<<<< Updated upstream
 /* ===============================
 LAYOUT
 =============================== */
@@ -15,6 +23,16 @@ LAYOUT
 .layout {
   display: flex;
   min-height: 100vh;
+=======
+/* ========================================
+   2. CONTAINER (used by dashboard & clubs)
+======================================== */
+
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 40px auto;
+>>>>>>> Stashed changes
 }
 
 /* ===============================
@@ -107,6 +125,7 @@ CONTENT
   margin-bottom: 20px;
   font-size: 22px;
   font-weight: 600;
+<<<<<<< Updated upstream
 }
 
 /* ===============================
@@ -114,8 +133,22 @@ CARDS
 =============================== */
 
 .card {
+=======
+  margin-bottom: 25px;
+  color: #2c3e50;
+}
+
+/* ========================================
+   3. CARD SYSTEM (dashboard & clubs)
+======================================== */
+
+.card,
+.club-card {
+>>>>>>> Stashed changes
   background: white;
+
   padding: 20px;
+<<<<<<< Updated upstream
   margin-bottom: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
@@ -189,8 +222,65 @@ STATUS BADGES
 
 .status {
   padding: 6px 12px;
-  border-radius: 20px;
+=======
+
+  border-radius: 10px;
+
+  margin-bottom: 20px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.club-name {
+  font-size: 20px;
+
+  font-weight: 600;
+}
+
+.club-description {
+  color: #777;
+
+  margin-bottom: 15px;
+}
+
+/* ========================================
+   4. BUTTONS (used everywhere)
+======================================== */
+
+.btn,
+.btn-join {
+  padding: 8px 18px;
+
+  background: #3498db;
+
   color: white;
+
+  border-radius: 6px;
+
+  text-decoration: none;
+
+  border: none;
+
+  cursor: pointer;
+}
+
+.btn:hover,
+.btn-join:hover {
+  background: #2980b9;
+}
+
+/* ========================================
+   5. STATUS BADGES (clubs page)
+======================================== */
+
+.status {
+  padding: 6px 14px;
+
+>>>>>>> Stashed changes
+  border-radius: 20px;
+
+  color: white;
+
   font-size: 13px;
 }
 
@@ -289,4 +379,40 @@ AUTHENTICATION PAGES
   color: red;
   font-size: 13px;
   margin-bottom: 10px;
+}
+
+/* ========================================
+   6. AUTH PAGES (login & register ONLY)
+======================================== */
+
+.auth-container {
+  width: 400px;
+
+  margin: 100px auto;
+
+  background: white;
+
+  padding: 30px;
+
+  border-radius: 10px;
+
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.auth-container h2 {
+  text-align: center;
+
+  margin-bottom: 20px;
+}
+
+.auth-container input {
+  width: 100%;
+
+  padding: 10px;
+
+  margin-bottom: 15px;
+
+  border-radius: 5px;
+
+  border: 1px solid #ccc;
 }
