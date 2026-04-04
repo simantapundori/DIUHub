@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 
 from .models import Event
-from registrations.models import Registration   
+from registrations.models import Registration
 
 
 # ==========================================
@@ -11,7 +11,7 @@ from registrations.models import Registration
 @login_required
 def event_list(request):
 
-    events = Event.objects.all().order_by('-event_date')  
+    events = Event.objects.all().order_by('-event_date')
 
     registrations = Registration.objects.filter(user=request.user)
     registered_events = [r.event.id for r in registrations]
