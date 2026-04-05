@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="page-title">Scan QR</h2>
+
+<div class="card" style="max-width: 500px; margin: auto;">
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <input 
+      type="text" 
+      name="qr_data" 
+      placeholder="Enter QR Code (e.g. 1-2)" 
+      class="form-control"
+    >
+
+    <br>
+
+    <button class="btn-primary">Mark Attendance</button>
+
+  </form>
+
+  {% if message %}
+    <p style="margin-top: 15px; font-weight: 500;">
+      {{ message }}
+    </p>
+  {% endif %}
+
+</div>
+
+{% endblock %}
