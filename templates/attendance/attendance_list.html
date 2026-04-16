@@ -1,21 +1,37 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
 
-{% block content %}
-
-<h2 class="page-title">Attendance List</h2>
+<h2 class="page-title">My Attendance</h2>
 
 {% for a in attendance %}
 
 <div class="card">
+  <div
+    style="display: flex; justify-content: space-between; align-items: center"
+  >
+    <div>
+      <h3 style="margin: 0">{{ a.registration.event.title }}</h3>
 
-<p><strong>User:</strong> {{ a.registration.user.username }}</p>
+      <p style="margin: 5px 0; color: #7f8c8d">
+        Club: {{ a.registration.event.club.name }}
+      </p>
 
-<p><strong>Event:</strong> {{ a.registration.event.title }}</p>
+      <p style="margin: 5px 0">Date: {{ a.registration.event.date }}</p>
+    </div>
 
-<p><strong>Attended:</strong> {{ a.attended }}</p>
-
+    <div>
+      {% if a.attended %}
+      <span class="status approved">Present</span>
+      {% else %}
+      <span class="status rejected">Absent</span>
+      {% endif %}
+    </div>
+  </div>
 </div>
 
-{% endfor %}
+{% empty %}
 
-{% endblock %}
+<div class="card">
+  <p>No attendance records yet.</p>
+</div>
+
+{% endfor %} {% endblock %}
