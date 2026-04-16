@@ -219,3 +219,55 @@ label {
   font-weight: 600;
   margin-bottom: 20px;
 }
+/* ===============================
+NAVIGATION IMPROVEMENT
+=============================== */
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-item {
+  display: block;
+  color: white;
+  padding: 12px;
+  margin-bottom: 10px;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: 0.2s;
+}
+
+.nav-item:hover {
+  background: #34495e;
+}
+
+.logout {
+  background: #e74c3c;
+}
+
+.logout:hover {
+  background: #c0392b;
+}
+
+/* Navbar right section */
+.nav-right {
+  margin-left: auto;
+}
+
+.welcome-text {
+  font-weight: 500;
+}
+
+/* ===============================
+ATTENDANCE CARD IMPROVEMENT
+=============================== */
+
+.card h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.card p {
+  font-size: 14px;
+}
