@@ -1,48 +1,77 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import UserRegisterForm
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .forms import UserRegisterForm
 
-# Register new user
+
+# ===============================
+# REGISTER
+# ===============================
 def register_view(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
+
         if form.is_valid():
             user = form.save()
-            login(request, user)  # login after register
+            login(request, user)
+
+            messages.success(request, "✅ Account created successfully!")
+
             return redirect('dashboard')
+        else:
+            messages.error(request, "❌ Please fix the form correctly.")
+
     else:
         form = UserRegisterForm()
 
     return render(request, 'users/register.html', {'form': form})
 
 
-# Login existing user
+# ===============================
+# LOGIN
+# ===============================
 def login_view(request):
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
+
         if form.is_valid():
             user = form.get_user()
             login(request, user)
+
+            messages.success(request, "✅ Login successful!")
+
             return redirect('dashboard')
+        else:
+            messages.error(request, "❌ Invalid username or password")
+
     else:
         form = AuthenticationForm()
 
     return render(request, 'users/login.html', {'form': form})
 
 
-# Logout user
+# ===============================
+# LOGOUT
+# ===============================
 def logout_view(request):
     logout(request)
+    messages.info(request, "👋 Logged out successfully")
     return redirect('login')
 
 
-# Temporary dashboard
+# ===============================
+# DASHBOARD
+# ===============================
+@login_required
 def dashboard(request):
     return render(request, 'users/dashboard.html')
 
-#Profile view and edit
+
+# ===============================
+# PROFILE
+# ===============================
 @login_required
 def profile_view(request):
 
@@ -61,4 +90,11 @@ def profile_view(request):
 
         user.save()
 
+<<<<<<< Updated upstream
+=======
+        messages.success(request, "✅ Profile updated successfully")
+
+        return redirect('profile')
+
+>>>>>>> Stashed changes
     return render(request, "users/profile.html", {"user": user})

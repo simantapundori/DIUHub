@@ -4,11 +4,22 @@
 <html>
   <head>
     <title>Register | DIUHub</title>
-
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
   </head>
 
   <body class="auth-page">
+    {% if messages %}
+    <div class="toast-container">
+      {% for message in messages %}
+      <div class="toast-message">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
     <div class="auth-container">
       <img src="{% static 'images/diuhub_logo.png' %}" class="auth-logo" />
 
@@ -22,28 +33,45 @@
           name="username"
           placeholder="Username"
           class="input-field"
+          required
         />
-
         <input
           type="email"
           name="email"
           placeholder="Email address"
           class="input-field"
+          required
         />
 
-        <input
-          type="password"
-          name="password1"
-          placeholder="Password"
-          class="input-field"
-        />
+        <!-- PASSWORD -->
+        <div class="password-wrapper">
+          <input
+            type="password"
+            name="password1"
+            placeholder="Password"
+            id="pass1"
+            class="input-field"
+            required
+          />
+          <span class="toggle-eye" onclick="togglePassword('pass1', this)">
+            <i class="fa-solid fa-eye"></i>
+          </span>
+        </div>
 
-        <input
-          type="password"
-          name="password2"
-          placeholder="Confirm Password"
-          class="input-field"
-        />
+        <!-- CONFIRM -->
+        <div class="password-wrapper">
+          <input
+            type="password"
+            name="password2"
+            placeholder="Confirm Password"
+            id="pass2"
+            class="input-field"
+            required
+          />
+          <span class="toggle-eye" onclick="togglePassword('pass2', this)">
+            <i class="fa-solid fa-eye"></i>
+          </span>
+        </div>
 
         <button class="btn-primary">Register</button>
       </form>
@@ -53,5 +81,27 @@
         <a href="/login/">Login</a>
       </p>
     </div>
+
+    <script>
+      function togglePassword(id, el) {
+        const input = document.getElementById(id);
+        const icon = el.querySelector("i");
+
+        if (input.type === "password") {
+          input.type = "text";
+          icon.classList.replace("fa-eye", "fa-eye-slash");
+        } else {
+          input.type = "password";
+          icon.classList.replace("fa-eye-slash", "fa-eye");
+        }
+      }
+
+      setTimeout(() => {
+        document.querySelectorAll(".toast-message").forEach((el) => {
+          el.classList.add("toast-hide");
+          setTimeout(() => el.remove(), 500);
+        });
+      }, 3000);
+    </script>
   </body>
 </html>

@@ -6,9 +6,24 @@
     <title>Login | DIUHub</title>
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+    <!-- Font Awesome (for eye icon) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
   </head>
 
   <body class="auth-page">
+    <!-- ✅ TOAST MESSAGE -->
+    {% if messages %}
+    <div class="toast-container">
+      {% for message in messages %}
+      <div class="toast-message">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
     <div class="auth-container">
       <img src="{% static 'images/diuhub_logo.png' %}" class="auth-logo" />
 
@@ -17,19 +32,32 @@
       <form method="post">
         {% csrf_token %}
 
+        <!-- Username -->
         <input
           type="text"
           name="username"
           placeholder="Username"
           class="input-field"
+          required
         />
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          class="input-field"
-        />
+        <!-- Password -->
+        <div class="password-wrapper">
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            id="loginPassword"
+            class="input-field"
+            required
+          />
+          <span
+            class="toggle-eye"
+            onclick="togglePassword('loginPassword', this)"
+          >
+            <i class="fa-solid fa-eye"></i>
+          </span>
+        </div>
 
         <button class="btn-primary">Login</button>
       </form>
@@ -39,5 +67,29 @@
         <a href="/register/">Register</a>
       </p>
     </div>
+
+    <!-- JS -->
+    <script>
+      function togglePassword(id, el) {
+        const input = document.getElementById(id);
+        const icon = el.querySelector("i");
+
+        if (input.type === "password") {
+          input.type = "text";
+          icon.classList.replace("fa-eye", "fa-eye-slash");
+        } else {
+          input.type = "password";
+          icon.classList.replace("fa-eye-slash", "fa-eye");
+        }
+      }
+
+      // Toast auto hide
+      setTimeout(() => {
+        document.querySelectorAll(".toast-message").forEach((el) => {
+          el.classList.add("toast-hide");
+          setTimeout(() => el.remove(), 500);
+        });
+      }, 3000);
+    </script>
   </body>
 </html>

@@ -9,9 +9,17 @@
   </head>
 
   <body>
+    <!-- ✅ TOAST MESSAGE SYSTEM -->
+    {% if messages %}
+    <div class="toast-container">
+      {% for message in messages %}
+      <div class="toast-message">{{ message }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
     <div class="layout">
       <!-- Sidebar -->
-
       <div class="sidebar" id="sidebar">
         <div class="logo-container">
           <img src="{% static 'images/diuhub_logo.png' %}" class="logo-img" />
@@ -31,30 +39,63 @@
       </div>
 
       <!-- Main Section -->
-
       <div class="main">
         <!-- Navbar -->
 
         <div class="navbar">
           <button id="menu-toggle">☰</button>
 
-          <span>Welcome, {{ request.user.username }}</span>
+          <div class="nav-right">
+            <button id="dark-toggle">🌙</button>
+            <span class="welcome-text">
+              Welcome, {{ request.user.username }}
+            </span>
+          </div>
         </div>
 
         <!-- Page Content -->
-
-        <div class="content">{% block content %} {% endblock %}</div>
+        <div class="content">{% block content %}{% endblock %}</div>
       </div>
     </div>
 
     <script>
+      // Sidebar toggle
       const toggleBtn = document.getElementById("menu-toggle");
-
       const sidebar = document.getElementById("sidebar");
 
       toggleBtn.onclick = function () {
         sidebar.classList.toggle("collapsed");
       };
+
+      // 🌙 Dark mode toggle
+      const darkBtn = document.getElementById("dark-toggle");
+
+      if (localStorage.getItem("darkMode") === "enabled") {
+        document.body.classList.add("dark");
+      }
+
+      darkBtn.onclick = function () {
+        document.body.classList.toggle("dark");
+
+        if (document.body.classList.contains("dark")) {
+          localStorage.setItem("darkMode", "enabled");
+        } else {
+          localStorage.setItem("darkMode", "disabled");
+        }
+      };
+
+      // 🔔 Toast auto hide
+      setTimeout(() => {
+        const toasts = document.querySelectorAll(".toast-message");
+
+        toasts.forEach((toast) => {
+          toast.classList.add("toast-hide");
+
+          setTimeout(() => {
+            toast.remove();
+          }, 500);
+        });
+      }, 3000);
     </script>
   </body>
 </html>

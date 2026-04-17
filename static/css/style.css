@@ -267,7 +267,19 @@ AUTHENTICATION PAGES
   width: 100%;
 }
 
+<<<<<<< Updated upstream
 /* Links */
+=======
+.input-field {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+>>>>>>> Stashed changes
 
 .auth-link {
   margin-top: 12px;
@@ -289,4 +301,134 @@ AUTHENTICATION PAGES
   color: red;
   font-size: 13px;
   margin-bottom: 10px;
+}
+
+/* ===============================
+TOAST MESSAGE (POPUP)
+=============================== */
+
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.toast-message {
+  background: #2c3e50;
+  color: white;
+  padding: 12px 18px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translateX(100%);
+  animation: slideIn 0.5s forwards;
+}
+
+/* Slide in animation */
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Fade out */
+.toast-hide {
+  animation: fadeOut 0.5s forwards;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+/*Password Toggle Styles */
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrapper .input-field {
+  width: 100%;
+  padding: 12px;
+  padding-right: 40px;
+  box-sizing: border-box;
+}
+
+.toggle-eye {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #555;
+}
+
+/*Glow effect input field*/
+
+.input-field {
+  transition: all 0.25s ease;
+}
+
+/* Focus effect */
+.input-field:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+  background-color: #ffffff;
+}
+
+/* Hover effect (subtle) */
+.input-field:hover {
+  border-color: #aaa;
+}
+
+/* ===============================
+DARK MODE
+=============================== */
+
+body.dark {
+  background: #121212;
+  color: #ecf0f1;
+}
+
+body.dark .card {
+  background: #1e1e1e;
+  color: #ecf0f1;
+}
+
+body.dark .navbar {
+  background: #1e1e1e;
+}
+
+body.dark .sidebar {
+  background: #111;
+}
+
+body.dark .input-field {
+  background: #2c2c2c;
+  color: white;
+  border: 1px solid #444;
+}
+
+body.dark .input-field:focus {
+  border-color: #3498db;
+}
+
+#dark-toggle {
+  margin-right: 15px;
+  padding: 6px 10px;
+  border: none;
+  background: #3498db;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#dark-toggle:hover {
+  background: #2980b9;
 }
