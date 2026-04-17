@@ -1,28 +1,48 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 
 <h2 class="page-title">All Events</h2>
 
 {% for event in events %}
-  <div class="card">
 
-    <h3>{{ event.title }}</h3>
+<div class="card">
+  <h3>{{ event.title }}</h3>
 
-    <p><strong>Club:</strong> {{ event.club.name }}</p>
+  <p><strong>Club:</strong> {{ event.club.name }}</p>
 
-    <p>{{ event.description|linebreaks }}</p>
+  <p>{{ event.description|linebreaks }}</p>
 
-    <p><strong>Date:</strong> {{ event.event_date }}</p>
+  <p><strong>Date:</strong> {{ event.event_date }}</p>
 
-    {% if event.id in registered_events %}
-      <span class="status approved">Registered</span>
-    {% else %}
-      <a href="/events/register/{{ event.id }}/" class="btn-primary">
-        Register
-      </a>
-    {% endif %}
+  <br />
 
-  </div>
-{% endfor %}
+  <!-- ✅ Already Registered -->
+  {% if event.id in registered_events %}
 
-{% endblock %}
+  <span class="status approved">Registered</span>
+
+  <br /><br />
+
+  <!-- Show QR -->
+  {% for r in request.user.registrations.all %} {% if r.event.id == event.id %}
+  {% if r.qr_code %}
+  <img src="{{ r.qr_code.url }}" width="120" />
+  {% endif %} {% endif %} {% endfor %}
+
+  <!-- ✅ Member → Can Register -->
+  {% elif event.club.id in user_clubs %}
+
+  <a href="/events/register/{{ event.id }}/" class="btn-primary"> Register </a>
+
+  <!-- ❌ Not Member -->
+  {% else %}
+
+  <span class="status rejected"> Join club to register </span>
+
+  {% endif %}
+</div>
+
+{% empty %}
+
+<p>No events available.</p>
+
+{% endfor %} {% endblock %}
