@@ -1,20 +1,27 @@
 from django.contrib import admin
 from django.urls import path, include
 
-urlpatterns = [
+# ✅ Required for media files (QR codes, uploads)
+from django.conf import settings
+from django.conf.urls.static import static
 
+
+urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # users system
+    # Users system
     path('', include('users.urls')),
 
-    # clubs system
+    # Clubs system
     path('clubs/', include('clubs.urls')),
 
-    # events system
+    # Events system
     path('events/', include('events.urls')),
 
-    # attendance system
+    # Attendance system
     path('attendance/', include('attendance.urls')),
-
 ]
+
+
+# ✅ Serve media files in development 
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
