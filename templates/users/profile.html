@@ -6,50 +6,247 @@
   <form method="post">
     {% csrf_token %}
 
+    <!-- FULL NAME -->
     <div class="form-group">
       <label>Full Name</label>
-      <input type="text" name="full_name" value="{{ user.full_name }}" />
+      <input
+        type="text"
+        name="full_name"
+        value="{{ user.full_name }}"
+        class="input-field"
+      />
     </div>
 
+    <!-- STUDENT ID -->
     <div class="form-group">
       <label>Student ID</label>
-      <input type="text" name="student_id" value="{{ user.student_id }}" />
+      <input
+        type="text"
+        name="student_id"
+        value="{{ user.student_id }}"
+        class="input-field"
+      />
     </div>
 
+    <!-- EMAIL -->
     <div class="form-group">
       <label>Email</label>
-      <input type="email" name="email" value="{{ user.email }}" />
+      <input
+        type="email"
+        name="email"
+        value="{{ user.email }}"
+        class="input-field"
+      />
     </div>
 
+    <!-- CONTACT -->
     <div class="form-group">
       <label>Contact Number</label>
       <input
         type="text"
         name="contact_number"
         value="{{ user.contact_number }}"
+        class="input-field"
       />
     </div>
 
+    <!-- BLOOD GROUP -->
     <div class="form-group">
       <label>Blood Group</label>
-      <input type="text" name="blood_group" value="{{ user.blood_group }}" />
+      <select name="blood_group" class="input-field">
+        <option value="">Select Blood Group</option>
+
+        <option
+          value="A+"
+          {%
+          if
+          user.blood_group=""
+          ="A+"
+          %}selected{%
+          endif
+          %}
+        >
+          A+
+        </option>
+        <option
+          value="A-"
+          {%
+          if
+          user.blood_group=""
+          ="A-"
+          %}selected{%
+          endif
+          %}
+        >
+          A-
+        </option>
+        <option
+          value="B+"
+          {%
+          if
+          user.blood_group=""
+          ="B+"
+          %}selected{%
+          endif
+          %}
+        >
+          B+
+        </option>
+        <option
+          value="B-"
+          {%
+          if
+          user.blood_group=""
+          ="B-"
+          %}selected{%
+          endif
+          %}
+        >
+          B-
+        </option>
+        <option
+          value="AB+"
+          {%
+          if
+          user.blood_group=""
+          ="AB+"
+          %}selected{%
+          endif
+          %}
+        >
+          AB+
+        </option>
+        <option
+          value="AB-"
+          {%
+          if
+          user.blood_group=""
+          ="AB-"
+          %}selected{%
+          endif
+          %}
+        >
+          AB-
+        </option>
+        <option
+          value="O+"
+          {%
+          if
+          user.blood_group=""
+          ="O+"
+          %}selected{%
+          endif
+          %}
+        >
+          O+
+        </option>
+        <option
+          value="O-"
+          {%
+          if
+          user.blood_group=""
+          ="O-"
+          %}selected{%
+          endif
+          %}
+        >
+          O-
+        </option>
+      </select>
     </div>
 
+    <!-- DEPARTMENT -->
     <div class="form-group">
       <label>Department</label>
-      <input type="text" name="department" value="{{ user.department }}" />
+      <select name="department" class="input-field">
+        <option value="">Select Department</option>
+
+        <option
+          value="CSE"
+          {%
+          if
+          user.department=""
+          ="CSE"
+          %}selected{%
+          endif
+          %}
+        >
+          CSE
+        </option>
+        <option
+          value="SWE"
+          {%
+          if
+          user.department=""
+          ="SWE"
+          %}selected{%
+          endif
+          %}
+        >
+          Software Engineering
+        </option>
+        <option
+          value="EEE"
+          {%
+          if
+          user.department=""
+          ="EEE"
+          %}selected{%
+          endif
+          %}
+        >
+          EEE
+        </option>
+        <option
+          value="BBA"
+          {%
+          if
+          user.department=""
+          ="BBA"
+          %}selected{%
+          endif
+          %}
+        >
+          BBA
+        </option>
+        <option
+          value="ENG"
+          {%
+          if
+          user.department=""
+          ="ENG"
+          %}selected{%
+          endif
+          %}
+        >
+          English
+        </option>
+      </select>
     </div>
 
+    <!-- BATCH -->
     <div class="form-group">
       <label>Batch</label>
-      <input type="text" name="batch" value="{{ user.batch }}" />
+      <input
+        type="text"
+        name="batch"
+        value="{{ user.batch }}"
+        class="input-field"
+      />
     </div>
 
+    <!-- SECTION -->
     <div class="form-group">
       <label>Section</label>
-      <input type="text" name="section" value="{{ user.section }}" />
+      <input
+        type="text"
+        name="section"
+        value="{{ user.section }}"
+        class="input-field"
+      />
     </div>
 
+    <!-- BUTTON -->
     <button class="btn-primary">Update Profile</button>
   </form>
 </div>

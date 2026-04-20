@@ -4,7 +4,10 @@
 <html>
   <head>
     <title>Register | DIUHub</title>
+
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+    <!-- Font Awesome -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -12,6 +15,7 @@
   </head>
 
   <body class="auth-page">
+    <!-- Toast -->
     {% if messages %}
     <div class="toast-container">
       {% for message in messages %}
@@ -25,8 +29,10 @@
 
       <h2>Create Account</h2>
 
-      <form method="post">
-        {% csrf_token %}
+      <form method="POST">
+        {% csrf_token %} {% if form.errors %}
+        <div class="error-box">{{ form.errors }}</div>
+        {% endif %}
 
         <input
           type="text"
@@ -43,14 +49,12 @@
           required
         />
 
-        <!-- PASSWORD -->
         <div class="password-wrapper">
           <input
             type="password"
             name="password1"
-            placeholder="Password"
             id="pass1"
-            class="input-field"
+            placeholder="Password"
             required
           />
           <span class="toggle-eye" onclick="togglePassword('pass1', this)">
@@ -58,14 +62,12 @@
           </span>
         </div>
 
-        <!-- CONFIRM -->
         <div class="password-wrapper">
           <input
             type="password"
             name="password2"
-            placeholder="Confirm Password"
             id="pass2"
-            class="input-field"
+            placeholder="Confirm Password"
             required
           />
           <span class="toggle-eye" onclick="togglePassword('pass2', this)">
@@ -77,8 +79,7 @@
       </form>
 
       <p class="auth-link">
-        Already have an account?
-        <a href="/login/">Login</a>
+        Already have an account? <a href="/login/">Login</a>
       </p>
     </div>
 
@@ -98,7 +99,7 @@
 
       setTimeout(() => {
         document.querySelectorAll(".toast-message").forEach((el) => {
-          el.classList.add("toast-hide");
+          el.style.opacity = "0";
           setTimeout(() => el.remove(), 500);
         });
       }, 3000);
