@@ -120,7 +120,13 @@ CARDS
   border-radius: 10px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
+.card h4 {
+  margin-bottom: 8px;
+}
 
+.card p {
+  line-height: 1.5;
+}
 /* ===============================
 FORMS
 =============================== */
@@ -140,26 +146,6 @@ FORMS
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 6px;
-}
-
-/* ===============================
-INPUT FIELDS
-=============================== */
-
-.input-field {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 14px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 14px;
-  outline: none;
-  transition: 0.2s;
-}
-
-.input-field:focus {
-  border-color: #3498db;
-  box-shadow: 0 0 4px rgba(52, 152, 219, 0.4);
 }
 
 /* ===============================
@@ -267,19 +253,7 @@ AUTHENTICATION PAGES
   width: 100%;
 }
 
-<<<<<<< Updated upstream
 /* Links */
-=======
-.input-field {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 12px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 14px;
-  box-sizing: border-box;
-}
->>>>>>> Stashed changes
 
 .auth-link {
   margin-top: 12px;
@@ -346,45 +320,81 @@ TOAST MESSAGE (POPUP)
   }
 }
 
-/*Password Toggle Styles */
+/* ===============================
+AUTH INPUT FINAL
+=============================== */
+
+/* Normal input */
+.input-field {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box;
+  background: #fff;
+  transition: all 0.25s ease;
+}
+
+/* Hover */
+.input-field:hover {
+  border-color: #aaa;
+}
+
+/* Glow */
+.input-field:focus {
+  border-color: #3498db;
+  box-shadow:
+    0 0 0 3px rgba(52, 152, 219, 0.2),
+    0 0 8px rgba(52, 152, 219, 0.15);
+  transform: scale(1.01);
+}
+
+/* Password wrapper */
 .password-wrapper {
   position: relative;
   width: 100%;
+  margin-bottom: 14px;
 }
 
-.password-wrapper .input-field {
+.password-wrapper input {
   width: 100%;
-  padding: 12px;
-  padding-right: 40px;
+  padding: 12px 14px;
+  padding-right: 45px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
   box-sizing: border-box;
+  background: #fff;
 }
 
+/* Eye icon */
 .toggle-eye {
   position: absolute;
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  color: #555;
+  color: #666;
+  font-size: 15px;
 }
 
-/*Glow effect input field*/
-
-.input-field {
-  transition: all 0.25s ease;
+.toggle-eye:hover {
+  color: #000;
 }
 
-/* Focus effect */
-.input-field:focus {
-  outline: none;
-  border-color: #3498db;
-  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
-  background-color: #ffffff;
+/* Remove browser eye */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
 }
 
-/* Hover effect (subtle) */
-.input-field:hover {
-  border-color: #aaa;
+/* Error box */
+.error-box {
+  color: red;
+  font-size: 13px;
+  margin-bottom: 10px;
+  text-align: left;
 }
 
 /* ===============================
@@ -431,4 +441,51 @@ body.dark .input-field:focus {
 
 #dark-toggle:hover {
   background: #2980b9;
+}
+
+/* ===============================
+   ATTENDANCE CARD
+================================= */
+
+.attendance-card {
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: 0.3s;
+}
+
+.attendance-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.attendance-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sub-info {
+  color: #777;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+/* STATUS BADGES */
+
+.status-badge {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.present {
+  background: #d4edda;
+  color: #28a745;
+}
+
+.absent {
+  background: #f8d7da;
+  color: #dc3545;
 }
