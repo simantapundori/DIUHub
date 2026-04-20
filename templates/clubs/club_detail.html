@@ -1,0 +1,55 @@
+{% extends "base.html" %} {% block content %}
+
+<h2 class="page-title">{{ club.name }}</h2>
+
+<!-- CLUB INFO -->
+<div class="card">
+  <p>{{ club.description }}</p>
+
+  <br />
+
+  <!-- MEMBERSHIP STATUS -->
+  {% if membership_status == "approved" %}
+  <span class="status approved">✔ You are a member</span>
+
+  {% elif membership_status == "pending" %}
+  <span class="status pending">⏳ Request Pending</span>
+
+  {% elif membership_status == "rejected" %}
+  <span class="status rejected">❌ Request Rejected</span>
+
+  {% else %}
+  <a href="/clubs/join/{{ club.id }}/" class="btn-primary"> Join Club </a>
+  {% endif %}
+</div>
+
+<h3 style="margin-top: 30px">📅 Upcoming Events</h3>
+
+{% for event in events %}
+
+<div class="card">
+  <h4>{{ event.title }}</h4>
+
+  <p>{{ event.description|linebreaks }}</p>
+
+  <p><strong>Date:</strong> {{ event.event_date }}</p>
+
+  <!-- REGISTER LOGIC -->
+  {% if membership_status == "approved" %} {% if event.id in registered_events
+  %}
+  <span class="status approved">Registered</span>
+
+  {% else %}
+  <a href="/events/register/{{ event.id }}/" class="btn-primary"> Register </a>
+  {% endif %} {% else %}
+
+  <span style="color: red">Join club to register</span>
+
+  {% endif %}
+</div>
+
+{% empty %}
+
+<p>No events available.</p>
+
+{% endfor %} {% endblock %}

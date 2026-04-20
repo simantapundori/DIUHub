@@ -5,7 +5,12 @@
 {% for club in clubs %}
 
 <div class="card">
-  <h3>{{ club.name }}</h3>
+  <!-- ✅ Clickable Club Name -->
+  <h3>
+    <a href="/clubs/{{ club.id }}/" style="text-decoration: none; color: black">
+      {{ club.name }}
+    </a>
+  </h3>
 
   <p>{{ club.description }}</p>
 
@@ -23,7 +28,7 @@
 
   {% else %}
 
-  <a href="/clubs/join/{{ club.id }}/" class="btn-primary">Join Club</a>
+  <a href="/clubs/join/{{ club.id }}/" class="btn-primary"> Join Club </a>
 
   {% endif %}
 </div>

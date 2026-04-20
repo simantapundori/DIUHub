@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Club, Membership
-
+from events.models import Event
 
 # ============================================
 # Show all clubs with membership status
@@ -98,3 +98,37 @@ def reject_membership(request, membership_id):
     membership.save()
 
     return redirect('membership_requests')
+
+
+#===============================
+# Club Details and Event Inside
+#===============================
+from events.models import Event
+from registrations.models import Registration
+
+@login_required
+def club_detail(request, club_id):
+
+    club = get_object_or_404(Club, id=club_id)
+
+    events = Event.objects.filter(club=club).order_by('event_date')
+
+    # Membership status
+    membership = Membership.objects.filter(
+        user=request.user,
+        club=club
+    ).first()
+
+    membership_status = membership.status if membership else None
+
+    # Registered events
+    registered_events = Registration.objects.filter(
+        user=request.user
+    ).values_list('event_id', flat=True)
+
+    return render(request, 'clubs/club_detail.html', {
+        'club': club,
+        'events': events,
+        'membership_status': membership_status,
+        'registered_events': registered_events
+    })
