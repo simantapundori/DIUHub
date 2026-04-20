@@ -6,6 +6,7 @@
     <title>DIUHub</title>
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <meta name="csrf-token" content="{{ csrf_token }}" />
   </head>
 
   <body>
@@ -17,17 +18,24 @@
           <img src="{% static 'images/diuhub_logo.png' %}" class="logo-img" />
         </div>
 
-        <a href="/dashboard/">Dashboard</a>
+        <nav class="nav-links">
+          <a href="/dashboard/" class="nav-item">🏠 Dashboard</a>
 
-        <a href="/profile/">My Profile</a>
+          <a href="/profile/" class="nav-item">👤 My Profile</a>
 
-        <a href="/clubs/">Clubs</a>
+          <a href="/clubs/" class="nav-item">🏫 Clubs</a>
 
-        <a href="/events/">Events</a>
+          <a href="/events/" class="nav-item">📅 Events</a>
 
-        <a href="/attendance/">Attendance</a>
+          <a href="/attendance/" class="nav-item">📊 Attendance</a>
 
-        <a href="/logout/">Logout</a>
+          <!-- ✅ ADMIN ONLY -->
+          {% if request.user.role == "admin" %}
+          <a href="/attendance/scan/" class="nav-item">📷 Scan Attendance</a>
+          {% endif %}
+
+          <a href="/logout/" class="nav-item logout">🚪 Logout</a>
+        </nav>
       </div>
 
       <!-- Main Section -->

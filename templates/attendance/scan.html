@@ -1,32 +1,42 @@
-{% extends "base.html" %}
-{% block content %}
+{% extends "base.html" %} {% block content %}
 
-<h2 class="page-title">Scan QR</h2>
+<h2 class="page-title">Scan Attendance</h2>
 
-<div class="card" style="max-width: 500px; margin: auto;">
+<div class="card" style="max-width: 600px; margin: auto; text-align: center">
+  <div id="reader" style="width: 100%"></div>
 
-  <form method="POST">
-    {% csrf_token %}
-
-    <input 
-      type="text" 
-      name="qr_data" 
-      placeholder="Enter QR Code (e.g. 1-2)" 
-      class="form-control"
-    >
-
-    <br>
-
-    <button class="btn-primary">Mark Attendance</button>
-
-  </form>
-
-  {% if message %}
-    <p style="margin-top: 15px; font-weight: 500;">
-      {{ message }}
-    </p>
-  {% endif %}
-
+  <p id="result" style="margin-top: 15px; font-weight: 500"></p>
 </div>
+
+<!-- ✅ LIBRARY -->
+<script src="https://unpkg.com/html5-qrcode"></script>
+
+<script>
+  function onScanSuccess(decodedText) {
+    document.getElementById("result").innerText = "Scanned: " + decodedText;
+
+    fetch("/attendance/scan/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": "{{ csrf_token }}",
+      },
+      body: JSON.stringify({
+        qr_data: decodedText,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("result").innerText = data.message;
+      });
+  }
+
+  let html5QrcodeScanner = new Html5QrcodeScanner("reader", {
+    fps: 10,
+    qrbox: 250,
+  });
+
+  html5QrcodeScanner.render(onScanSuccess);
+</script>
 
 {% endblock %}
