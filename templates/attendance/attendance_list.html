@@ -1,21 +1,39 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block content %}
 
-{% block content %}
-
-<h2 class="page-title">Attendance List</h2>
+<h2 class="page-title">Attendance Records</h2>
 
 {% for a in attendance %}
 
-<div class="card">
+<div class="card attendance-card">
+  <div class="attendance-header">
+    <div>
+      <h3>
+        {{ a.registration.user.full_name|default:a.registration.user.username }}
+      </h3>
+      <p class="sub-info">
+        ID: {{ a.registration.user.student_id|default:"N/A" }}
+      </p>
+    </div>
 
-<p><strong>User:</strong> {{ a.registration.user.username }}</p>
+    <!-- STATUS BADGE -->
+    {% if a.attended %}
+    <span class="status-badge present">✔ Present</span>
+    {% else %}
+    <span class="status-badge absent">✖ Absent</span>
+    {% endif %}
+  </div>
 
-<p><strong>Event:</strong> {{ a.registration.event.title }}</p>
+  <hr />
 
-<p><strong>Attended:</strong> {{ a.attended }}</p>
+  <div class="attendance-body">
+    <p><strong>Event:</strong> {{ a.registration.event.title }}</p>
 
+    <p><strong>Club:</strong> {{ a.registration.event.club.name }}</p>
+
+    <p><strong>Date:</strong> {{ a.registration.event.event_date }}</p>
+  </div>
 </div>
 
-{% endfor %}
-
-{% endblock %}
+{% empty %}
+<p>No attendance records found.</p>
+{% endfor %} {% endblock %}
