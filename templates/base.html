@@ -9,7 +9,7 @@
   </head>
 
   <body>
-    <!-- ✅ TOAST MESSAGE SYSTEM -->
+    <!-- TOAST MESSAGE SYSTEM -->
     {% if messages %}
     <div class="toast-container">
       {% for message in messages %}
@@ -26,15 +26,17 @@
         </div>
 
         <a href="/dashboard/">Dashboard</a>
-
         <a href="/profile/">My Profile</a>
-
         <a href="/clubs/">Clubs</a>
-
         <a href="/events/">Events</a>
-
         <a href="/attendance/">Attendance</a>
+        <!-- ROLE BASED ACCESS -->
 
+        {% if is_admin %}
+        <a href="/attendance/scan/" class="nav-item">📷 Scan Attendance</a>
+        {% endif %} {% if is_student %}
+        <a href="/events/my-qr/" class="nav-item">📱 My QR</a>
+        {% endif %}
         <a href="/logout/">Logout</a>
       </div>
 

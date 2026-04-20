@@ -72,6 +72,8 @@ def dashboard(request):
 # ===============================
 # PROFILE
 # ===============================
+from django.contrib import messages
+
 @login_required
 def profile_view(request):
 
@@ -79,22 +81,19 @@ def profile_view(request):
 
     if request.method == "POST":
 
-        user.full_name = request.POST.get("full_name")
-        user.student_id = request.POST.get("student_id")
-        user.email = request.POST.get("email")
-        user.contact_number = request.POST.get("contact_number")
-        user.blood_group = request.POST.get("blood_group")
-        user.department = request.POST.get("department")
-        user.batch = request.POST.get("batch")
-        user.section = request.POST.get("section")
+        user.full_name = request.POST.get("full_name") or ""
+        user.student_id = request.POST.get("student_id") or ""
+        user.email = request.POST.get("email") or ""
+        user.contact_number = request.POST.get("contact_number") or ""
+        user.blood_group = request.POST.get("blood_group") or ""
+        user.department = request.POST.get("department") or ""
+        user.batch = request.POST.get("batch") or ""
+        user.section = request.POST.get("section") or ""
 
         user.save()
 
-<<<<<<< Updated upstream
-=======
-        messages.success(request, "✅ Profile updated successfully")
+        messages.success(request, "✅ Profile updated successfully!")
 
-        return redirect('profile')
+        return redirect('profile')   # 🔥 IMPORTANT
 
->>>>>>> Stashed changes
     return render(request, "users/profile.html", {"user": user})
