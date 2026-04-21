@@ -1,0 +1,25 @@
+{% extends "base.html" %} {% block content %}
+
+<h2 class="page-title">Pending Membership Requests</h2>
+
+{% for membership in requests %}
+<div class="card">
+  <h3>{{ membership.club.name }}</h3>
+  <p><strong>User:</strong> {{ membership.user.username }}</p>
+  <p><strong>Status:</strong> {{ membership.status }}</p>
+
+  <div style="display: flex; gap: 10px; margin-top: 12px">
+    <form method="post" action="{% url 'approve_membership' membership.id %}">
+      {% csrf_token %}
+      <button type="submit" class="btn-primary">Approve</button>
+    </form>
+
+    <form method="post" action="{% url 'reject_membership' membership.id %}">
+      {% csrf_token %}
+      <button type="submit" class="btn-primary">Reject</button>
+    </form>
+  </div>
+</div>
+{% empty %}
+<p>No pending requests.</p>
+{% endfor %} {% endblock %}

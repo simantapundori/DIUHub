@@ -23,10 +23,10 @@
   {% endif %}
 </div>
 
+<!-- EVENTS -->
 <h3 style="margin-top: 30px">📅 Upcoming Events</h3>
 
-{% for event in events %}
-
+{% if events %} {% for event in events %}
 <div class="card">
   <h4>{{ event.title }}</h4>
 
@@ -37,19 +37,13 @@
   <!-- REGISTER LOGIC -->
   {% if membership_status == "approved" %} {% if event.id in registered_events
   %}
-  <span class="status approved">Registered</span>
-
+  <span class="status approved">✔ Registered</span>
   {% else %}
   <a href="/events/register/{{ event.id }}/" class="btn-primary"> Register </a>
   {% endif %} {% else %}
-
   <span style="color: red">Join club to register</span>
-
   {% endif %}
 </div>
-
-{% empty %}
-
+{% endfor %} {% else %}
 <p>No events available.</p>
-
-{% endfor %} {% endblock %}
+{% endif %} {% endblock %}

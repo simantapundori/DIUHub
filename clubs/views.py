@@ -1,7 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+
 from .models import Club, Membership
 from events.models import Event
+from registrations.models import Registration
+
 
 # ============================================
 # Show all clubs with membership status
@@ -9,42 +13,36 @@ from events.models import Event
 @login_required
 def club_list(request):
 
-    # Get all clubs
     clubs = Club.objects.all()
 
-    # Get current user's memberships
     memberships = Membership.objects.filter(user=request.user)
 
-    # Create dictionary: club_id -> status
     membership_status = {}
 
     for membership in memberships:
         membership_status[membership.club.id] = membership.status
 
-    # Attach status directly to each club object
     for club in clubs:
         club.user_status = membership_status.get(club.id, None)
 
-    context = {
+    return render(request, 'clubs/club_list.html', {
         'clubs': clubs,
-    }
-
-    return render(request, 'clubs/club_list.html', context)
+    })
 
 
 # ============================================
 # Join a club
 # ============================================
 @login_required
+@require_POST
 def join_club(request, club_id):
 
     club = get_object_or_404(Club, id=club_id)
 
-    # Create membership only if it doesn't exist
     Membership.objects.get_or_create(
         user=request.user,
         club=club,
-        defaults={'status': 'pending'}
+        defaults={'status': 'pending', 'payment_ref': 'pending'}
     )
 
     return redirect('club_list')
@@ -56,29 +54,30 @@ def join_club(request, club_id):
 @login_required
 def membership_requests(request):
 
-    # Only clubs created by current user
     clubs = Club.objects.filter(created_by=request.user)
 
-    # Get pending requests
     requests = Membership.objects.filter(
         club__in=clubs,
         status='pending'
     )
 
-    context = {
+    return render(request, 'clubs/membership_requests.html', {
         'requests': requests,
-    }
-
-    return render(request, 'clubs/membership_requests.html', context)
+    })
 
 
 # ============================================
 # Approve membership
 # ============================================
 @login_required
+@require_POST
 def approve_membership(request, membership_id):
 
-    membership = get_object_or_404(Membership, id=membership_id)
+    membership = get_object_or_404(
+        Membership,
+        id=membership_id,
+        club__created_by=request.user
+    )
 
     membership.status = 'approved'
     membership.save()
@@ -87,12 +86,23 @@ def approve_membership(request, membership_id):
 
 
 # ============================================
-# Reject membership
+# Reject membership + DELETE registrations 🔥
 # ============================================
 @login_required
+@require_POST
 def reject_membership(request, membership_id):
 
-    membership = get_object_or_404(Membership, id=membership_id)
+    membership = get_object_or_404(
+        Membership,
+        id=membership_id,
+        club__created_by=request.user
+    )
+
+    # 🔥 DELETE all event registrations of that club
+    Registration.objects.filter(
+        user=membership.user,
+        event__club=membership.club
+    ).delete()
 
     membership.status = 'rejected'
     membership.save()
@@ -100,12 +110,9 @@ def reject_membership(request, membership_id):
     return redirect('membership_requests')
 
 
-#===============================
+# ============================================
 # Club Details and Event Inside
-#===============================
-from events.models import Event
-from registrations.models import Registration
-
+# ============================================
 @login_required
 def club_detail(request, club_id):
 
@@ -113,7 +120,6 @@ def club_detail(request, club_id):
 
     events = Event.objects.filter(club=club).order_by('event_date')
 
-    # Membership status
     membership = Membership.objects.filter(
         user=request.user,
         club=club
@@ -121,10 +127,11 @@ def club_detail(request, club_id):
 
     membership_status = membership.status if membership else None
 
-    # Registered events
-    registered_events = Registration.objects.filter(
-        user=request.user
-    ).values_list('event_id', flat=True)
+    # 🔥 FIX → convert to list (prevents template issues)
+    registered_events = list(
+        Registration.objects.filter(user=request.user)
+        .values_list('event_id', flat=True)
+    )
 
     return render(request, 'clubs/club_detail.html', {
         'club': club,

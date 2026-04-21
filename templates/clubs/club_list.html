@@ -1,13 +1,21 @@
 {% extends "base.html" %} {% block content %}
 
 <h2 class="page-title">University Clubs</h2>
-
-{% for club in clubs %}
+{% if request.user.role == "admin" or request.user.role == "superadmin" %}
+<p>
+  <a href="{% url 'membership_requests' %}" class="btn-primary">
+    Manage Membership Requests
+  </a>
+</p>
+{% endif %} {% for club in clubs %}
 
 <div class="card">
   <!-- ✅ Clickable Club Name -->
   <h3>
-    <a href="/clubs/{{ club.id }}/" style="text-decoration: none; color: black">
+    <a
+      href="{% url 'club_detail' club.id %}"
+      style="text-decoration: none; color: black"
+    >
       {{ club.name }}
     </a>
   </h3>
@@ -28,7 +36,10 @@
 
   {% else %}
 
-  <a href="/clubs/join/{{ club.id }}/" class="btn-primary"> Join Club </a>
+  <form method="post" action="{% url 'join_club' club.id %}">
+    {% csrf_token %}
+    <button type="submit" class="btn-primary">Join Club</button>
+  </form>
 
   {% endif %}
 </div>
