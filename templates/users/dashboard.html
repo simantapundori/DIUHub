@@ -1,21 +1,46 @@
 {% extends "base.html" %} {% block content %}
 
 <h2 class="page-title">Dashboard</h2>
+<p class="subtitle">Welcome to DIUHub, {{ request.user.username }} 👋</p>
 
-<div class="card">
-  <p>Welcome to DIUHub, {{ request.user.username }}.</p>
+<div class="dashboard-grid">
+  <!-- CLUB CARD -->
+  <a href="/clubs/" class="dashboard-card">
+    <div class="icon">👥</div>
+    <h3>Browse Clubs</h3>
+    <p>Explore and join clubs</p>
+  </a>
 
-  <br />
+  <!-- EVENTS CARD -->
+  <a href="/events/" class="dashboard-card purple">
+    <div class="icon">📅</div>
+    <h3>Browse Events</h3>
+    <p>Discover upcoming events</p>
+  </a>
 
-  <a href="/clubs/" class="btn-primary">Browse Clubs</a>
+  <!-- PROFILE CARD -->
+  <a href="/profile/" class="dashboard-card green">
+    <div class="icon">👤</div>
+    <h3>My Profile</h3>
+    <p>Update your info</p>
+  </a>
+</div>
 
-  <br /><br />
+<!-- ADMIN ONLY -->
+{% if request.user.role == "admin" or request.user.role == "superadmin" %}
+<div class="scan-card">
+  <div>
+    <h3>📷 Scan Attendance</h3>
+    <p>Scan QR codes to mark attendance instantly</p>
+    <a href="/attendance/scan/" class="btn-primary">Start Scanning</a>
+  </div>
+</div>
+{% endif %}
 
-  <a href="/events/" class="btn-primary">Browse Events</a>
-
-  <br /><br />
-
-  <a href="/profile/" class="btn-primary">My Profile</a>
+<!-- HERO SECTION -->
+<div class="hero">
+  <h3>Stay Connected, Stay Ahead 🚀</h3>
+  <p>Join clubs, participate in events and grow your campus life.</p>
 </div>
 
 {% endblock %}
