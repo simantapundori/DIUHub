@@ -4,8 +4,12 @@ from django.utils import timezone
 from django.contrib import messages
 from django.http import JsonResponse
 from datetime import timedelta
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 from registrations.models import Registration
+from events.models import Event
 from .models import Attendance
 
 
@@ -15,12 +19,14 @@ from .models import Attendance
 @login_required
 def scan_qr(request):
 
+    # 🔒 Restrict access
     if request.user.role not in ["admin", "superadmin"]:
         if request.method == "GET":
             messages.error(request, "❌ Access denied")
             return redirect('dashboard')
         return JsonResponse({"error": "Access denied"}, status=403)
 
+    # ✅ FIXED INDENTATION HERE
     if request.method == "POST":
 
         qr_data = request.POST.get('qr_data')
@@ -28,7 +34,9 @@ def scan_qr(request):
         try:
             user_id, event_id = qr_data.split('-')
 
-            registration = Registration.objects.get(
+            registration = Registration.objects.select_related(
+                'user', 'event'
+            ).get(
                 user_id=user_id,
                 event_id=event_id
             )
@@ -37,20 +45,27 @@ def scan_qr(request):
                 registration=registration
             )
 
-            # prevent duplicate
+            # ⚠️ Already marked
             if attendance.attended:
                 return JsonResponse({
                     "status": "already",
-                    "message": "⚠️ Already marked"
+                    "message": "⚠️ Already marked",
+                    "student_name": registration.user.username,
+                    "student_id": getattr(registration.user, 'student_id', registration.user.id),
+                    "event": registration.event.title
                 })
 
+            # ✅ Mark attendance
             attendance.attended = True
             attendance.attended_at = timezone.now()
             attendance.save()
 
             return JsonResponse({
                 "status": "success",
-                "message": "✅ Attendance marked"
+                "message": "✅ Attendance marked",
+                "student_name": registration.user.username,
+                "student_id": getattr(registration.user, 'student_id', registration.user.id),
+                "event": registration.event.title
             })
 
         except Exception:
@@ -59,11 +74,12 @@ def scan_qr(request):
                 "message": "❌ Invalid QR"
             }, status=400)
 
+    # 🔥 IMPORTANT (you missed this before)
     return render(request, 'attendance/scan.html')
 
 
 # ==========================================
-# 📊 ATTENDANCE LIST
+# 📊 STUDENT ATTENDANCE
 # ==========================================
 @login_required
 def attendance_list(request):
@@ -77,6 +93,43 @@ def attendance_list(request):
 
     return render(request, 'attendance/attendance_list.html', {
         'attendance': attendance
+    })
+
+
+# ==========================================
+# 📊 ADMIN ATTENDANCE REPORT
+# ==========================================
+@login_required
+def attendance_report(request):
+
+    if request.user.role not in ["admin", "superadmin"]:
+        return redirect('dashboard')
+
+    events = Event.objects.all().order_by('-event_date')
+
+    report = []
+
+    for event in events:
+
+        total_registered = Registration.objects.filter(event=event).count()
+
+        total_present = Attendance.objects.filter(
+            registration__event=event,
+            attended=True
+        ).count()
+
+        total_absent = total_registered - total_present
+
+        report.append({
+            'event': event,
+            'club': event.club,
+            'total_registered': total_registered,
+            'present': total_present,
+            'absent': total_absent
+        })
+
+    return render(request, 'attendance/attendance_report.html', {
+        'report': report
     })
 
 
