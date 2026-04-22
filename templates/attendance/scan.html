@@ -1,22 +1,37 @@
 {% extends "base.html" %} {% block content %}
 
-<h2 class="page-title">Scan Attendance</h2>
+<h2 class="page-title">📷 Scan Attendance</h2>
 
-<div class="card" style="text-align: center; max-width: 500px; margin: auto">
-  <!-- CAMERA -->
-  <div id="reader" style="width: 100%"></div>
+<div class="scan-container">
+  <!-- SCANNER CARD -->
+  <div class="card scan-card">
+    <div class="scan-header">
+      <h3>QR Scanner</h3>
+      <p class="subtitle">Scan student QR to mark attendance</p>
+    </div>
 
-  <p id="result" style="margin-top: 15px; font-weight: 500"></p>
+    <!-- CAMERA -->
+    <div id="reader"></div>
+
+    <!-- RESULT -->
+    <div id="scan-result" class="scan-result">Waiting for scan...</div>
+  </div>
 </div>
 
-<!-- QR SCANNER LIBRARY -->
+<!-- QR LIB -->
 <script src="https://unpkg.com/html5-qrcode"></script>
 
 <script>
   function onScanSuccess(decodedText) {
-    document.getElementById("result").innerText = "Scanned: " + decodedText;
+    const resultBox = document.getElementById("scan-result");
 
-    // SEND TO BACKEND
+    // ⛔ prevent rapid duplicate scans (important)
+    if (window.lastScan === decodedText) return;
+    window.lastScan = decodedText;
+
+    resultBox.innerText = "Processing...";
+    resultBox.className = "scan-result loading";
+
     fetch("/attendance/scan/", {
       method: "POST",
       headers: {
@@ -27,30 +42,67 @@
     })
       .then((res) => res.json())
       .then((data) => {
-        document.getElementById("result").innerText = data.message;
+        // ✅ SUCCESS OR ALREADY → SHOW DETAILS
+        if (data.status === "success" || data.status === "already") {
+          resultBox.innerHTML = `
+          <div class="scan-success-box">
+            <h4>${data.message}</h4>
+            <p><strong>Name:</strong> ${data.student_name || "N/A"}</p>
+            <p><strong>ID:</strong> ${data.student_id || "N/A"}</p>
+            <p><strong>Event:</strong> ${data.event || "N/A"}</p>
+          </div>
+        `;
+
+          resultBox.className =
+            data.status === "success"
+              ? "scan-result success"
+              : "scan-result warning";
+
+          // 🔊 optional sound (nice touch)
+          new Audio(
+            "https://www.soundjay.com/buttons/sounds/button-3.mp3",
+          ).play();
+        } else {
+          resultBox.innerText = data.message || "❌ Invalid QR";
+          resultBox.className = "scan-result error";
+        }
       })
       .catch(() => {
-        document.getElementById("result").innerText = "❌ Server error";
+        resultBox.innerText = "❌ Server Error";
+        resultBox.className = "scan-result error";
       });
+
+    // ⏳ allow next scan after 2 sec
+    setTimeout(() => {
+      window.lastScan = null;
+    }, 2000);
   }
 
   const html5QrCode = new Html5Qrcode("reader");
 
   Html5Qrcode.getCameras()
     .then((devices) => {
-      if (devices && devices.length) {
+      if (devices.length) {
+        // 📱 prefer back camera (mobile)
+        let backCam = devices.find((cam) =>
+          cam.label.toLowerCase().includes("back"),
+        );
+
+        let cameraId = backCam ? backCam.id : devices[0].id;
+
         html5QrCode.start(
-          devices[0].id,
+          cameraId,
           {
             fps: 10,
-            qrbox: 250,
+            qrbox: { width: 250, height: 250 },
           },
           onScanSuccess,
         );
       }
     })
-    .catch((err) => {
-      document.getElementById("result").innerText = "Camera not accessible";
+    .catch(() => {
+      document.getElementById("scan-result").innerText =
+        "❌ Camera not accessible";
     });
 </script>
 

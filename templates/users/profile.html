@@ -1,8 +1,8 @@
 {% extends "base.html" %} {% block content %}
 
-<h2 class="page-title">Student Profile</h2>
+<h2 class="page-title">👤 Student Profile</h2>
 
-<div class="card">
+<div class="card profile-card">
   <form method="post">
     {% csrf_token %}
 
@@ -14,6 +14,7 @@
         name="full_name"
         value="{{ user.full_name }}"
         class="input-field"
+        placeholder="Enter your full name"
       />
     </div>
 
@@ -25,6 +26,7 @@
         name="student_id"
         value="{{ user.student_id }}"
         class="input-field"
+        placeholder="e.g. 221-15-XXXX"
       />
     </div>
 
@@ -36,10 +38,11 @@
         name="email"
         value="{{ user.email }}"
         class="input-field"
+        placeholder="Enter your email"
       />
     </div>
 
-    <!-- CONTACT -->
+    <!-- CONTACT NUMBER (VALIDATED) -->
     <div class="form-group">
       <label>Contact Number</label>
       <input
@@ -47,181 +50,34 @@
         name="contact_number"
         value="{{ user.contact_number }}"
         class="input-field"
+        placeholder="01XXXXXXXXX"
+        pattern="01[0-9]{9}"
+        maxlength="11"
       />
     </div>
 
-    <!-- BLOOD GROUP -->
+    <!-- BLOOD GROUP (INPUT INSTEAD OF DROPDOWN) -->
     <div class="form-group">
       <label>Blood Group</label>
-      <select name="blood_group" class="input-field">
-        <option value="">Select Blood Group</option>
-
-        <option
-          value="A+"
-          {%
-          if
-          user.blood_group=""
-          ="A+"
-          %}selected{%
-          endif
-          %}
-        >
-          A+
-        </option>
-        <option
-          value="A-"
-          {%
-          if
-          user.blood_group=""
-          ="A-"
-          %}selected{%
-          endif
-          %}
-        >
-          A-
-        </option>
-        <option
-          value="B+"
-          {%
-          if
-          user.blood_group=""
-          ="B+"
-          %}selected{%
-          endif
-          %}
-        >
-          B+
-        </option>
-        <option
-          value="B-"
-          {%
-          if
-          user.blood_group=""
-          ="B-"
-          %}selected{%
-          endif
-          %}
-        >
-          B-
-        </option>
-        <option
-          value="AB+"
-          {%
-          if
-          user.blood_group=""
-          ="AB+"
-          %}selected{%
-          endif
-          %}
-        >
-          AB+
-        </option>
-        <option
-          value="AB-"
-          {%
-          if
-          user.blood_group=""
-          ="AB-"
-          %}selected{%
-          endif
-          %}
-        >
-          AB-
-        </option>
-        <option
-          value="O+"
-          {%
-          if
-          user.blood_group=""
-          ="O+"
-          %}selected{%
-          endif
-          %}
-        >
-          O+
-        </option>
-        <option
-          value="O-"
-          {%
-          if
-          user.blood_group=""
-          ="O-"
-          %}selected{%
-          endif
-          %}
-        >
-          O-
-        </option>
-      </select>
+      <input
+        type="text"
+        name="blood_group"
+        value="{{ user.blood_group }}"
+        class="input-field"
+        placeholder="e.g. A+"
+      />
     </div>
 
-    <!-- DEPARTMENT -->
+    <!-- DEPARTMENT (INPUT INSTEAD OF DROPDOWN) -->
     <div class="form-group">
       <label>Department</label>
-      <select name="department" class="input-field">
-        <option value="">Select Department</option>
-
-        <option
-          value="CSE"
-          {%
-          if
-          user.department=""
-          ="CSE"
-          %}selected{%
-          endif
-          %}
-        >
-          CSE
-        </option>
-        <option
-          value="SWE"
-          {%
-          if
-          user.department=""
-          ="SWE"
-          %}selected{%
-          endif
-          %}
-        >
-          Software Engineering
-        </option>
-        <option
-          value="EEE"
-          {%
-          if
-          user.department=""
-          ="EEE"
-          %}selected{%
-          endif
-          %}
-        >
-          EEE
-        </option>
-        <option
-          value="BBA"
-          {%
-          if
-          user.department=""
-          ="BBA"
-          %}selected{%
-          endif
-          %}
-        >
-          BBA
-        </option>
-        <option
-          value="ENG"
-          {%
-          if
-          user.department=""
-          ="ENG"
-          %}selected{%
-          endif
-          %}
-        >
-          English
-        </option>
-      </select>
+      <input
+        type="text"
+        name="department"
+        value="{{ user.department }}"
+        class="input-field"
+        placeholder="e.g. SWE"
+      />
     </div>
 
     <!-- BATCH -->
@@ -232,6 +88,7 @@
         name="batch"
         value="{{ user.batch }}"
         class="input-field"
+        placeholder="e.g. 55"
       />
     </div>
 
@@ -243,6 +100,7 @@
         name="section"
         value="{{ user.section }}"
         class="input-field"
+        placeholder="e.g. A"
       />
     </div>
 

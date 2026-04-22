@@ -1,25 +1,40 @@
 {% extends "base.html" %} {% block content %}
 
-<h2 class="page-title">Pending Membership Requests</h2>
+<h2 class="page-title">📥 Membership Requests</h2>
 
-{% for membership in requests %}
-<div class="card">
-  <h3>{{ membership.club.name }}</h3>
-  <p><strong>User:</strong> {{ membership.user.username }}</p>
-  <p><strong>Status:</strong> {{ membership.status }}</p>
+<div class="request-grid">
+  {% for membership in requests %}
 
-  <div style="display: flex; gap: 10px; margin-top: 12px">
-    <form method="post" action="{% url 'approve_membership' membership.id %}">
-      {% csrf_token %}
-      <button type="submit" class="btn-primary">Approve</button>
-    </form>
+  <div class="card">
+    <!-- TOP -->
+    <div class="card-top">
+      <h3>{{ membership.club.name }}</h3>
+      <span class="status pending">Pending</span>
+    </div>
 
-    <form method="post" action="{% url 'reject_membership' membership.id %}">
-      {% csrf_token %}
-      <button type="submit" class="btn-primary">Reject</button>
-    </form>
+    <!-- USER INFO -->
+    <div class="card-info">
+      <p>👤 {{ membership.user.username }}</p>
+      <p>🆔 ID: {{ membership.user.student_id }}</p>
+    </div>
+
+    <!-- ACTIONS -->
+    <div class="card-actions">
+      <form method="post" action="{% url 'approve_membership' membership.id %}">
+        {% csrf_token %}
+        <button class="btn-approve">Approve</button>
+      </form>
+
+      <form method="post" action="{% url 'reject_membership' membership.id %}">
+        {% csrf_token %}
+        <button class="btn-reject">Reject</button>
+      </form>
+    </div>
   </div>
+
+  {% empty %}
+  <p>No pending requests.</p>
+  {% endfor %}
 </div>
-{% empty %}
-<p>No pending requests.</p>
-{% endfor %} {% endblock %}
+
+{% endblock %}

@@ -7,14 +7,16 @@
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 
-    <!-- Font Awesome -->
     <link
-      rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
     />
   </head>
 
   <body class="auth-page">
+    <!-- 🔥 BACKGROUND -->
+    <div class="auth-bg"></div>
+
     <!-- Toast -->
     {% if messages %}
     <div class="toast-container">
@@ -25,43 +27,46 @@
     {% endif %}
 
     <div class="auth-container">
-      <img src="{% static 'images/diuhub_logo.png' %}" class="auth-logo" />
+      <div class="auth-card">
+        <img src="{% static 'images/diuhub_logo.png' %}" class="auth-logo" />
 
-      <h2>Welcome Back</h2>
+        <h2>Welcome Back</h2>
 
-      <form method="POST">
-        {% csrf_token %}
+        <form method="POST">
+          {% csrf_token %}
 
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          class="input-field"
-          required
-        />
-
-        <div class="password-wrapper">
           <input
-            type="password"
-            name="password"
-            id="loginPassword"
-            placeholder="Password"
+            type="text"
+            name="username"
+            placeholder="Username"
+            class="auth-input"
             required
           />
-          <span
-            class="toggle-eye"
-            onclick="togglePassword('loginPassword', this)"
-          >
-            <i class="fa-solid fa-eye"></i>
-          </span>
-        </div>
 
-        <button class="btn-primary">Login</button>
-      </form>
+          <div class="password-wrapper">
+            <input
+              type="password"
+              name="password"
+              id="loginPassword"
+              placeholder="Password"
+              class="auth-input"
+              required
+            />
+            <span
+              class="toggle-eye"
+              onclick="togglePassword('loginPassword', this)"
+            >
+              <i class="fa-solid fa-eye"></i>
+            </span>
+          </div>
 
-      <p class="auth-link">
-        Don't have an account? <a href="/register/">Register</a>
-      </p>
+          <button class="auth-btn">Login</button>
+        </form>
+
+        <p class="auth-link">
+          Don’t have an account? <a href="/register/">Register</a>
+        </p>
+      </div>
     </div>
 
     <script>

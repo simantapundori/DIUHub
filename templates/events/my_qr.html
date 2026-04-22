@@ -1,23 +1,38 @@
 {% extends "base.html" %} {% block content %}
 
-<h2 class="page-title">My QR Codes</h2>
+<h2 class="page-title">📱 My QR Code</h2>
 
-{% for r in registrations %}
+<div class="qr-container">
+  {% for reg in registrations %}
 
-<div class="card">
-  <h3>{{ r.event.title }}</h3>
+  <div class="qr-card">
+    <!-- HEADER -->
+    <div class="qr-header">
+      <h3>{{ reg.event.title }}</h3>
+      <p class="club">{{ reg.event.club.name }}</p>
+    </div>
 
-  <p><strong>Club:</strong> {{ r.event.club.name }}</p>
+    <!-- USER INFO -->
+    <div class="qr-user">
+      <p><strong>Name:</strong> {{ request.user.username }}</p>
+      <p><strong>ID:</strong> {{ request.user.student_id }}</p>
+    </div>
 
-  {% if r.qr_code %}
-  <img src="{{ r.qr_code.url }}" width="150" />
-  {% else %}
-  <p>No QR generated</p>
-  {% endif %}
+    <!-- QR -->
+    <div class="qr-box">
+      <img src="{{ reg.qr_code.url }}" alt="QR Code" />
+    </div>
+
+    <!-- FOOTER -->
+    <div class="qr-footer">
+      <p>📅 {{ reg.event.event_date }}</p>
+      <span class="status pending">Show this QR to Admin</span>
+    </div>
+  </div>
+
+  {% empty %}
+  <p>No registered events.</p>
+  {% endfor %}
 </div>
 
-{% empty %}
-
-<p>No registrations yet.</p>
-
-{% endfor %} {% endblock %}
+{% endblock %}

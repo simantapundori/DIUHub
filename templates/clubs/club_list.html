@@ -1,47 +1,45 @@
 {% extends "base.html" %} {% block content %}
 
-<h2 class="page-title">University Clubs</h2>
-{% if request.user.role == "admin" or request.user.role == "superadmin" %}
-<p>
+<h2 class="page-title">🚀 University Clubs</h2>
+
+{% if is_admin %}
+<div style="margin-bottom: 20px">
   <a href="{% url 'membership_requests' %}" class="btn-primary">
-    Manage Membership Requests
+    ⚙️ Manage Requests
   </a>
-</p>
-{% endif %} {% for club in clubs %}
+</div>
+{% endif %}
 
-<div class="card">
-  <!-- ✅ Clickable Club Name -->
-  <h3>
-    <a
-      href="{% url 'club_detail' club.id %}"
-      style="text-decoration: none; color: black"
-    >
-      {{ club.name }}
-    </a>
-  </h3>
+<div class="club-grid">
+  {% for club in clubs %}
 
-  <p>{{ club.description }}</p>
+  <div class="card">
+    <h4>
+      <a href="{% url 'club_detail' club.id %}"> {{ club.name }} </a>
+    </h4>
 
-  {% if club.user_status == "approved" %}
+    <p>{{ club.description|truncatewords:20 }}</p>
 
-  <span class="status approved">Member</span>
+    <div class="card-footer">
+      {% if club.user_status == "approved" %}
+      <span class="status approved">✔ Member</span>
 
-  {% elif club.user_status == "pending" %}
+      {% elif club.user_status == "pending" %}
+      <span class="status pending">⏳ Pending</span>
 
-  <span class="status pending">Request Pending</span>
+      {% elif club.user_status == "rejected" %}
+      <span class="status rejected">❌ Rejected</span>
 
-  {% elif club.user_status == "rejected" %}
+      {% else %}
+      <form method="post" action="{% url 'join_club' club.id %}">
+        {% csrf_token %}
+        <button class="btn-primary">Join</button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
 
-  <span class="status rejected">Rejected</span>
-
-  {% else %}
-
-  <form method="post" action="{% url 'join_club' club.id %}">
-    {% csrf_token %}
-    <button type="submit" class="btn-primary">Join Club</button>
-  </form>
-
-  {% endif %}
+  {% endfor %}
 </div>
 
-{% endfor %} {% endblock %}
+{% endblock %}

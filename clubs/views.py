@@ -98,7 +98,7 @@ def reject_membership(request, membership_id):
         club__created_by=request.user
     )
 
-    # 🔥 DELETE all event registrations of that club
+    # 🔥 Remove all registrations of that club
     Registration.objects.filter(
         user=membership.user,
         event__club=membership.club
@@ -111,7 +111,7 @@ def reject_membership(request, membership_id):
 
 
 # ============================================
-# Club Details and Event Inside
+# Club Details and Event Inside (FIXED CLEAN)
 # ============================================
 @login_required
 def club_detail(request, club_id):
@@ -120,6 +120,7 @@ def club_detail(request, club_id):
 
     events = Event.objects.filter(club=club).order_by('event_date')
 
+    # Membership
     membership = Membership.objects.filter(
         user=request.user,
         club=club
@@ -127,8 +128,8 @@ def club_detail(request, club_id):
 
     membership_status = membership.status if membership else None
 
-    # 🔥 FIX → convert to list (prevents template issues)
-    registered_events = list(
+    #  CLEAN FIX 
+    registered_event_ids = list(
         Registration.objects.filter(user=request.user)
         .values_list('event_id', flat=True)
     )
@@ -137,5 +138,5 @@ def club_detail(request, club_id):
         'club': club,
         'events': events,
         'membership_status': membership_status,
-        'registered_events': registered_events
+        'registered_event_ids': registered_event_ids
     })

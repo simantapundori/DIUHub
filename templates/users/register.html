@@ -7,14 +7,16 @@
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 
-    <!-- Font Awesome -->
     <link
-      rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
     />
   </head>
 
   <body class="auth-page">
+    <!-- 🔥 BACKGROUND -->
+    <div class="auth-bg"></div>
+
     <!-- Toast -->
     {% if messages %}
     <div class="toast-container">
@@ -25,62 +27,66 @@
     {% endif %}
 
     <div class="auth-container">
-      <img src="{% static 'images/diuhub_logo.png' %}" class="auth-logo" />
+      <div class="auth-card">
+        <img src="{% static 'images/diuhub_logo.png' %}" class="auth-logo" />
 
-      <h2>Create Account</h2>
+        <h2>Create Account</h2>
 
-      <form method="POST">
-        {% csrf_token %} {% if form.errors %}
-        <div class="error-box">{{ form.errors }}</div>
-        {% endif %}
+        <form method="POST">
+          {% csrf_token %} {% if form.errors %}
+          <div class="error-box">{{ form.errors }}</div>
+          {% endif %}
 
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          class="input-field"
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email address"
-          class="input-field"
-          required
-        />
-
-        <div class="password-wrapper">
           <input
-            type="password"
-            name="password1"
-            id="pass1"
-            placeholder="Password"
+            type="text"
+            name="username"
+            placeholder="Username"
+            class="auth-input"
             required
           />
-          <span class="toggle-eye" onclick="togglePassword('pass1', this)">
-            <i class="fa-solid fa-eye"></i>
-          </span>
-        </div>
-
-        <div class="password-wrapper">
           <input
-            type="password"
-            name="password2"
-            id="pass2"
-            placeholder="Confirm Password"
+            type="email"
+            name="email"
+            placeholder="Email address"
+            class="auth-input"
             required
           />
-          <span class="toggle-eye" onclick="togglePassword('pass2', this)">
-            <i class="fa-solid fa-eye"></i>
-          </span>
-        </div>
 
-        <button class="btn-primary">Register</button>
-      </form>
+          <div class="password-wrapper">
+            <input
+              type="password"
+              name="password1"
+              id="pass1"
+              placeholder="Password"
+              class="auth-input"
+              required
+            />
+            <span class="toggle-eye" onclick="togglePassword('pass1', this)">
+              <i class="fa-solid fa-eye"></i>
+            </span>
+          </div>
 
-      <p class="auth-link">
-        Already have an account? <a href="/login/">Login</a>
-      </p>
+          <div class="password-wrapper">
+            <input
+              type="password"
+              name="password2"
+              id="pass2"
+              placeholder="Confirm Password"
+              class="auth-input"
+              required
+            />
+            <span class="toggle-eye" onclick="togglePassword('pass2', this)">
+              <i class="fa-solid fa-eye"></i>
+            </span>
+          </div>
+
+          <button class="auth-btn">Register</button>
+        </form>
+
+        <p class="auth-link">
+          Already have an account? <a href="/login/">Login</a>
+        </p>
+      </div>
     </div>
 
     <script>
