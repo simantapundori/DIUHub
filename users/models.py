@@ -39,6 +39,18 @@ class User(AbstractUser):
     )
 
     # ===============================
+    # 🔥 NEW: CLUB ASSIGNMENT
+    # ===============================
+    club = models.ForeignKey(
+    'clubs.Club',
+    on_delete=models.SET_NULL,
+    null=True,
+    blank=True,
+    related_name='club_admins'
+)
+
+
+    # ===============================
     # PROFILE FIELDS
     # ===============================
     full_name = models.CharField(max_length=100, blank=True)
@@ -65,11 +77,9 @@ class User(AbstractUser):
     # ===============================
     def save(self, *args, **kwargs):
 
-        # Auto assign role for superuser
         if self.is_superuser:
             self.role = "superadmin"
 
-        # If role empty → default student
         elif not self.role:
             self.role = "student"
 

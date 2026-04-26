@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% block content %}
 
-<h2 class="page-title">Attendance Report</h2>
+<h2 class="page-title">📊 Attendance Report</h2>
 
 <div class="report-grid">
   {% for r in report %}
@@ -24,6 +24,17 @@
         <span>{{ r.absent }}</span>
         <p>Absent</p>
       </div>
+    </div>
+
+    <!-- 🔥 NEW ACTION BUTTONS -->
+    <div style="margin-top: 15px; display: flex; gap: 10px; flex-wrap: wrap">
+      <a href="{% url 'event_students' r.event.id %}" class="btn-primary">
+        👥 View Students
+      </a>
+
+      <a href="{% url 'export_attendance' r.event.id %}" class="btn-primary">
+        📥 Download Excel
+      </a>
     </div>
   </div>
 

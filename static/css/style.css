@@ -127,6 +127,13 @@ CONTENT
   font-weight: 600;
 }
 
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 /* ===============================
 CARDS
 =============================== */
@@ -159,7 +166,9 @@ FORMS
   margin-bottom: 5px;
 }
 
-.form-group input {
+.form-group input,
+.form-group select,
+.form-group textarea {
   width: 100%;
   padding: 10px;
   border: 1px solid #ddd;
@@ -288,6 +297,7 @@ CARD (GLASS EFFECT)
   border-radius: 20px;
 
   background: rgba(15, 23, 42, 0.75);
+  -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
 
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);

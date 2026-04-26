@@ -7,8 +7,8 @@
 <div class="card">
   <h4>{{ a.registration.event.title }}</h4>
 
-  <p>Club: {{ a.registration.event.club.name }}</p>
-  <p>User: {{ a.registration.user.username }}</p>
+  <p><strong>Club:</strong> {{ a.registration.event.club.name }}</p>
+  <p><strong>User:</strong> {{ a.registration.user.username }}</p>
 
   <div class="card-footer">
     {% if a.attended %}

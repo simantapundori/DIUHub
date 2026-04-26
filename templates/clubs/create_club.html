@@ -1,0 +1,25 @@
+<h2>Create Club + Admin</h2>
+
+<form method="POST">
+  {% csrf_token %}
+
+  <h4>Club Info</h4>
+  <input type="text" name="name" placeholder="Club Name" required />
+  <textarea name="description" placeholder="Description"></textarea>
+
+  <h4>Admin Info</h4>
+  <input
+    type="text"
+    name="admin_username"
+    placeholder="Admin Username"
+    required
+  />
+  <input
+    type="password"
+    name="admin_password"
+    placeholder="Admin Password"
+    required
+  />
+
+  <button type="submit">Create Club</button>
+</form>

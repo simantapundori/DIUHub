@@ -36,15 +36,16 @@
   <p>Date: {{ event.event_date }}</p>
 
   <div class="card-footer">
-    {% if membership_status == "approved" %} {% if event.id in
-    registered_event_ids %}
-    <span class="status approved">✔ Registered</span>
+    {% if membership_status == "approved" %}
+      {% if event.id in registered_event_ids %}
+        <span class="status approved">✔ Registered</span>
+      {% else %}
+        <a href="{% url 'register_event' event.id %}" class="btn-primary">
+          Register
+        </a>
+      {% endif %}
     {% else %}
-    <a href="{% url 'register_event' event.id %}" class="btn-primary">
-      Register
-    </a>
-    {% endif %} {% else %}
-    <span class="status rejected">Join club first</span>
+      <span class="status rejected">Join club first</span>
     {% endif %}
   </div>
 </div>

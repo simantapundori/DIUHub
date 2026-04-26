@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="form-container">
+
+  <h2 class="page-title">➕ Create Event</h2>
+
+  <form method="POST" class="form-card">
+    {% csrf_token %}
+
+    <div class="form-group">
+      <label>Event Title</label>
+      <input type="text" name="title" placeholder="Enter event title" required>
+    </div>
+
+    <div class="form-group">
+      <label>Description</label>
+      <textarea name="description" rows="4" placeholder="Enter event details"></textarea>
+    </div>
+
+    {% if request.user.role == "superadmin" %}
+    <div class="form-group">
+      <label for="club_id">Club</label>
+      <select id="club_id" name="club_id" required>
+        <option value="" disabled selected>Select a club</option>
+        {% for club in clubs %}
+        <option value="{{ club.id }}">{{ club.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    {% endif %}
+
+    <div class="form-group">
+      <label for="event_date">Event Date</label>
+      <input type="datetime-local" id="event_date" name="event_date" title="Event Date" required>
+    </div>
+
+    <button type="submit" class="btn-primary">
+      🚀 Create Event
+    </button>
+
+  </form>
+
+</div>
+
+{% endblock %}
