@@ -2,105 +2,89 @@
 
 <!doctype html>
 <html>
-  <head>
-    <title>DIUHub</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-      rel="stylesheet"
-    />
-  </head>
+<head>
+  <title>DIUHub</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+</head>
 
-  <body
-    class="{% if request.user.role == 'admin' or request.user.role == 'superadmin' %}admin-theme{% else %}student-theme{% endif %}"
-  >
-    <!-- TOAST -->
-    {% if messages %}
-    <div class="toast-container">
-      {% for message in messages %}
-      <div class="toast-message">{{ message }}</div>
-      {% endfor %}
+<body class="{% if request.user.role == 'admin' or request.user.role == 'superadmin' %}admin-theme{% else %}student-theme{% endif %}">
+
+{% if messages %}
+<div class="toast-container">
+  {% for message in messages %}
+  <div class="toast-message">{{ message }}</div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="layout">
+  <div class="sidebar" id="sidebar">
+
+    <div class="logo-container">
+      <img src="{% static 'images/diuhub_logo.png' %}" class="logo-img"/>
     </div>
+
+    <a href="/dashboard/">Dashboard</a>
+    <a href="/profile/">My Profile</a>
+    <a href="/clubs/">Clubs</a>
+
+    {% if request.user.role == "superadmin" %}
+      <a href="{% url 'create_club' %}">🏫 Create Club</a>
+      <a href="{% url 'create_event' %}">➕ Create Event</a>
     {% endif %}
 
-    <div class="layout">
-      <!-- SIDEBAR -->
-      <div class="sidebar" id="sidebar">
-        <div class="logo-container">
-          <img src="{% static 'images/diuhub_logo.png' %}" class="logo-img" />
-        </div>
+    {% if request.user.role == "admin" %}
+      <a href="{% url 'create_event' %}">➕ Create Event</a>
+    {% endif %}
 
-        <a href="/dashboard/">Dashboard</a>
-        <a href="/profile/">My Profile</a>
-        <a href="/clubs/">Clubs</a>
-        <a href="/events/">Events</a>
+    <a href="/events/">Events</a>
 
-        <!-- ROLE BASED ACCESS -->
+    {% if request.user.role == "admin" or request.user.role == "superadmin" %}
+      <a href="/attendance/report/">📊 Attendance Report</a>
+      <a href="/attendance/scan/">📷 Scan Attendance</a>
+    {% endif %}
 
-        <!-- ROLE BASED ACCESS -->
+    {% if request.user.role == "student" %}
+      <a href="/attendance/">Attendance</a>
+      <a href="/events/my-qr/">📱 My QR</a>
+    {% endif %}
 
-        {% if is_admin %}
-        <a href="/attendance/report/" class="nav-item">📊 Attendance Report</a>
-        <a href="/attendance/scan/" class="nav-item">📷 Scan Attendance</a>
-        {% endif %} {% if is_student %}
-        <a href="/attendance/" class="nav-item">Attendance</a>
-        <a href="/events/my-qr/" class="nav-item">📱 My QR</a>
-        {% endif %}
-        <a href="/logout/">Logout</a>
-      </div>
+    <a href="/logout/">Logout</a>
+  </div>
 
-      <!-- MAIN -->
-      <div class="main">
-        <div class="navbar">
-          <button id="menu-toggle">☰</button>
+  <div class="main">
+    <div class="navbar">
+      <button id="menu-toggle">☰</button>
 
-          <div class="nav-right">
-            <button id="dark-toggle">🌙</button>
-            <span class="welcome-text">
-              Welcome, {{ request.user.username }}
-            </span>
-          </div>
-        </div>
-
-        <div class="content">{% block content %}{% endblock %}</div>
+      <div class="nav-right">
+        <button id="dark-toggle">🌙</button>
+        <span>Welcome, {{ request.user.username }}</span>
       </div>
     </div>
 
-    <script>
-      const toggleBtn = document.getElementById("menu-toggle");
-      const sidebar = document.getElementById("sidebar");
+    <div class="content">{% block content %}{% endblock %}</div>
+  </div>
+</div>
 
-      toggleBtn.onclick = function () {
-        sidebar.classList.toggle("collapsed");
-      };
+<script>
+document.getElementById("menu-toggle").onclick = () => {
+  document.getElementById("sidebar").classList.toggle("collapsed");
+};
 
-      const darkBtn = document.getElementById("dark-toggle");
+const darkBtn = document.getElementById("dark-toggle");
 
-      if (localStorage.getItem("darkMode") === "enabled") {
-        document.body.classList.add("dark");
-      }
+if (localStorage.getItem("darkMode") === "enabled") {
+  document.body.classList.add("dark");
+}
 
-      darkBtn.onclick = function () {
-        document.body.classList.toggle("dark");
+darkBtn.onclick = () => {
+  document.body.classList.toggle("dark");
+  localStorage.setItem("darkMode",
+    document.body.classList.contains("dark") ? "enabled" : "disabled"
+  );
+};
+</script>
 
-        if (document.body.classList.contains("dark")) {
-          localStorage.setItem("darkMode", "enabled");
-        } else {
-          localStorage.setItem("darkMode", "disabled");
-        }
-      };
-
-      setTimeout(() => {
-        const toasts = document.querySelectorAll(".toast-message");
-
-        toasts.forEach((toast) => {
-          toast.classList.add("toast-hide");
-
-          setTimeout(() => {
-            toast.remove();
-          }, 500);
-        });
-      }, 3000);
-    </script>
-  </body>
+</body>
 </html>

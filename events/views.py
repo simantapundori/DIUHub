@@ -46,6 +46,7 @@ def event_list(request):
         'events': events,
         'registered_events': registered_events,
         'user_clubs': user_clubs,
+         'registration_map': registration_map,
     })
 
 

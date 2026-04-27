@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.db import IntegrityError, transaction
+from django.contrib import messages
 from django.views.decorators.http import require_POST
 from django.contrib.auth import get_user_model
 
@@ -62,20 +64,31 @@ def create_club(request):
         return redirect('dashboard')
 
     if request.method == "POST":
+        admin_username = request.POST.get('admin_username', '').strip()
+        admin_password = request.POST.get('admin_password', '')
 
-        club = Club.objects.create(
-            name=request.POST['name'],
-            description=request.POST.get('description', ''),
-            created_by=request.user
-        )
+        if User.objects.filter(username__iexact=admin_username).exists():
+            messages.error(request, "❌ Admin username already exists. Choose a different username.")
+            return render(request, 'clubs/create_club.html')
 
-        # 🔥 Create admin for this club
-        User.objects.create_user(
-            username=request.POST['admin_username'],
-            password=request.POST['admin_password'],
-            role='admin',
-            club=club
-        )
+        try:
+            with transaction.atomic():
+                club = Club.objects.create(
+                    name=request.POST['name'],
+                    description=request.POST.get('description', ''),
+                    created_by=request.user
+                )
+
+                # 🔥 Create admin for this club
+                User.objects.create_user(
+                    username=admin_username,
+                    password=admin_password,
+                    role='admin',
+                    club=club
+                )
+        except IntegrityError:
+            messages.error(request, "❌ Could not create club admin. Please use a unique username.")
+            return render(request, 'clubs/create_club.html')
 
         return redirect('club_list')
 

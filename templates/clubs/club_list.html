@@ -1,8 +1,9 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+{% block content %}
 
 <h2 class="page-title">🚀 University Clubs</h2>
 
-{% if is_admin %}
+{% if request.user.role == "admin" or request.user.role == "superadmin" %}
 <div style="margin-bottom: 20px">
   <a href="{% url 'membership_requests' %}" class="btn-primary">
     ⚙️ Manage Requests
@@ -11,35 +12,47 @@
 {% endif %}
 
 <div class="club-grid">
-  {% for club in clubs %}
+{% for club in clubs %}
 
-  <div class="card">
-    <h4>
-      <a href="{% url 'club_detail' club.id %}"> {{ club.name }} </a>
-    </h4>
+<div class="card">
+  <h4>
+    <a href="{% url 'club_detail' club.id %}">{{ club.name }}</a>
+  </h4>
 
-    <p>{{ club.description|truncatewords:20 }}</p>
+  <p>{{ club.description|truncatewords:20 }}</p>
 
-    <div class="card-footer">
-      {% if club.user_status == "approved" %}
+<div class="card-footer">
+
+  {% if request.user.role == "superadmin" %}
+    <span class="status approved">👑 Full Access</span>
+
+  {% elif request.user.role == "admin" and club.id == request.user.club_id %}
+    <span class="status approved">⚙ Your Club</span>
+
+  {% elif request.user.role == "student" %}
+
+    {% if club.user_status == "approved" %}
       <span class="status approved">✔ Member</span>
 
-      {% elif club.user_status == "pending" %}
+    {% elif club.user_status == "pending" %}
       <span class="status pending">⏳ Pending</span>
 
-      {% elif club.user_status == "rejected" %}
+    {% elif club.user_status == "rejected" %}
       <span class="status rejected">❌ Rejected</span>
 
-      {% else %}
+    {% else %}
       <form method="post" action="{% url 'join_club' club.id %}">
         {% csrf_token %}
         <button class="btn-primary">Join</button>
       </form>
-      {% endif %}
-    </div>
-  </div>
+    {% endif %}
 
-  {% endfor %}
+  {% endif %}
+
+</div>
+</div>
+
+{% endfor %}
 </div>
 
 {% endblock %}
